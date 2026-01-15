@@ -1,0 +1,121 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Users\\huynpde180519\\fpt\\PRN222\\PlayCourt\\PlayCourt\\PlayCourt\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{27EF3DC6-92B4-4EBF-8CDD-CF5FD4B2407B}|PlayCourt.csproj|d:\\users\\huynpde180519\\fpt\\prn222\\playcourt\\playcourt\\playcourt\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27EF3DC6-92B4-4EBF-8CDD-CF5FD4B2407B}|PlayCourt.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1A76342D-EB00-49D4-9646-633F314C943F}|..\\Application\\Application.csproj|d:\\users\\huynpde180519\\fpt\\prn222\\playcourt\\playcourt\\application\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBF7706A-202B-4D5E-BEE6-8C174DC98FB5}|..\\Infrastructure\\Infrastructure.csproj|d:\\users\\huynpde180519\\fpt\\prn222\\playcourt\\playcourt\\infrastructure\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1A76342D-EB00-49D4-9646-633F314C943F}|..\\Application\\Application.csproj|d:\\users\\huynpde180519\\fpt\\prn222\\playcourt\\playcourt\\application\\service\\servicedemo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1A76342D-EB00-49D4-9646-633F314C943F}|..\\Application\\Application.csproj|d:\\users\\huynpde180519\\fpt\\prn222\\playcourt\\playcourt\\application\\interfaces\\iservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBF7706A-202B-4D5E-BEE6-8C174DC98FB5}|..\\Infrastructure\\Infrastructure.csproj|d:\\users\\huynpde180519\\fpt\\prn222\\playcourt\\playcourt\\infrastructure\\repositories\\repo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IService.cs",
+              "DocumentMoniker": "D:\\Users\\huynpde180519\\fpt\\PRN222\\PlayCourt\\PlayCourt\\Application\\Interfaces\\IService.cs",
+              "RelativeDocumentMoniker": "..\\Application\\Interfaces\\IService.cs",
+              "ToolTip": "D:\\Users\\huynpde180519\\fpt\\PRN222\\PlayCourt\\PlayCourt\\Application\\Interfaces\\IService.cs",
+              "RelativeToolTip": "..\\Application\\Interfaces\\IService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-15T15:55:33.636Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Repo.cs",
+              "DocumentMoniker": "D:\\Users\\huynpde180519\\fpt\\PRN222\\PlayCourt\\PlayCourt\\Infrastructure\\Repositories\\Repo.cs",
+              "RelativeDocumentMoniker": "..\\Infrastructure\\Repositories\\Repo.cs",
+              "ToolTip": "D:\\Users\\huynpde180519\\fpt\\PRN222\\PlayCourt\\PlayCourt\\Infrastructure\\Repositories\\Repo.cs",
+              "RelativeToolTip": "..\\Infrastructure\\Repositories\\Repo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-15T15:50:26.729Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ServiceDemo.cs",
+              "DocumentMoniker": "D:\\Users\\huynpde180519\\fpt\\PRN222\\PlayCourt\\PlayCourt\\Application\\Service\\ServiceDemo.cs",
+              "RelativeDocumentMoniker": "..\\Application\\Service\\ServiceDemo.cs",
+              "ToolTip": "D:\\Users\\huynpde180519\\fpt\\PRN222\\PlayCourt\\PlayCourt\\Application\\Service\\ServiceDemo.cs",
+              "RelativeToolTip": "..\\Application\\Service\\ServiceDemo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-15T15:50:20.92Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "D:\\Users\\huynpde180519\\fpt\\PRN222\\PlayCourt\\PlayCourt\\Infrastructure\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "..\\Infrastructure\\DependencyInjection.cs",
+              "ToolTip": "D:\\Users\\huynpde180519\\fpt\\PRN222\\PlayCourt\\PlayCourt\\Infrastructure\\DependencyInjection.cs",
+              "RelativeToolTip": "..\\Infrastructure\\DependencyInjection.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-15T15:49:42.314Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Users\\huynpde180519\\fpt\\PRN222\\PlayCourt\\PlayCourt\\PlayCourt\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\Users\\huynpde180519\\fpt\\PRN222\\PlayCourt\\PlayCourt\\PlayCourt\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-15T15:47:29.805Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "D:\\Users\\huynpde180519\\fpt\\PRN222\\PlayCourt\\PlayCourt\\Application\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "..\\Application\\DependencyInjection.cs",
+              "ToolTip": "D:\\Users\\huynpde180519\\fpt\\PRN222\\PlayCourt\\PlayCourt\\Application\\DependencyInjection.cs",
+              "RelativeToolTip": "..\\Application\\DependencyInjection.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-15T15:46:12.683Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
