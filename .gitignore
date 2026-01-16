@@ -1,0 +1,12 @@
+## .NET
+bin/
+obj/
+
+## Environment
+.env
+appsettings.*.json
+
+## IDE
+.vs/
+.idea/
+.vscode/
