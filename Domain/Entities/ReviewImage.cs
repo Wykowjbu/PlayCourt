@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Infrastructure.Entities;
+namespace Domain.Entities;
 
 /// <summary>
 /// Bảng lưu hình ảnh kèm theo đánh giá của người chơi (tối đa 5-10 ảnh/review)
