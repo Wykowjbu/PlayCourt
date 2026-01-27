@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Infrastructure.Entities;
+namespace Domain.Entities;
 
 /// <summary>
 /// Danh sách hình ảnh của sân

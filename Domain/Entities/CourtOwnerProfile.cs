@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Infrastructure.Entities;
+namespace Domain.Entities;
 
 /// <summary>
 /// Bảng lưu thông tin hồ sơ dành riêng cho chủ sân thể thao

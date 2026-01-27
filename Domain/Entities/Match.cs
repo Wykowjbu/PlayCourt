@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Infrastructure.Entities;
+namespace Domain.Entities;
 
 /// <summary>
 /// Bảng lưu thông tin các bài đăng tìm trận (match request) do người chơi tạo

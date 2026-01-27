@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Infrastructure.Entities;
+namespace Domain.Entities;
 
 /// <summary>
 /// Bảng lưu thông tin xác thực và phân quyền người dùng trong hệ thống

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Infrastructure.Entities;
+namespace Domain.Entities;
 
 /// <summary>
 /// Bảng danh mục vai trò người dùng trong hệ thống

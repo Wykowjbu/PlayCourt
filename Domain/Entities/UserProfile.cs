@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Infrastructure.Entities;
+namespace Domain.Entities;
 
 /// <summary>
 /// Bảng lưu thông tin hồ sơ cá nhân của người dùng (dùng chung cho tất cả các loại user)
