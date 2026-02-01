@@ -1,0 +1,150 @@
+﻿@page "{id:int}"
+@model PlayCourt.Pages.Venues.DetailsModel
+@{
+    Layout = "_MainLayout";
+    ViewData["Title"] = Model.Data.Name;
+}
+
+<main class="max-w-[1280px] mx-auto px-6 pt-8 pb-24">
+    <section class="grid grid-cols-4 grid-rows-2 gap-4 h-[500px] mb-12">
+        <div class="col-span-2 row-span-2 relative overflow-hidden rounded-3xl group cursor-pointer">
+            <div class="w-full h-full bg-center bg-cover bg-no-repeat transition-transform duration-700 group-hover:scale-105" 
+                 style='background-image: url(@Model.Data.Images[0]);'></div>
+        </div>
+        @for (int i = 1; i<3 ; i++)
+        {
+            <div class="col-span-@(i==1? "2":"1") row-span-1 relative overflow-hidden rounded-3xl group cursor-pointer">
+                <div class="w-full h-full bg-center bg-cover bg-no-repeat transition-transform duration-700 group-hover:scale-105" 
+                     style='background-image: url(@Model.Data.Images[i]);'></div>
+            </div>
+        }
+        <div class="col-span-1 row-span-1 relative overflow-hidden rounded-3xl group cursor-pointer bg-slate-200">
+            @{
+                int extraPhotos = Model.Data.Images.Count - 4;
+            }
+            <div class="absolute inset-0 @( extraPhotos != 0? "bg-black/40" : "") flex items-center justify-center text-white z-10">
+                <span class="text-xl font-black">@(extraPhotos != 0 ? $"+ {extraPhotos} Photos" : "") </span>
+            </div>
+            <div class="w-full h-full bg-center bg-cover bg-no-repeat" style='background-image: url(@Model.Data.Images[3]);'></div>
+        </div>
+    </section>
+
+    <div class="flex flex-col lg:flex-row gap-12">
+        <div class="flex-1 space-y-12">
+            <div class="space-y-4">
+                <div class="flex items-center gap-2">
+                    <span class="bg-primary/10 text-primary text-[10px] font-black px-3 py-1 rounded-full uppercase">Top Rated Venue</span>
+                    <span class="flex items-center gap-1 text-sm font-bold text-amber-500">
+                        <span class="material-symbols-outlined text-sm fill-1">star</span> @Model.Data.Rating (@Model.Data.ReviewCount reviews)
+                    </span>
+                </div>
+                <h1 class="text-4xl font-black text-slate-900 dark:text-white">@Model.Data.Name</h1>
+                <div class="flex items-center gap-4 text-slate-500 font-medium">
+                    <p class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span> @Model.Data.Address</p>
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                    <p class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">map</span> @Model.Data.DistanceInfo</p>
+                </div>
+            </div>
+
+            <section class="space-y-4">
+                <h3 class="text-2xl font-black text-slate-900 dark:text-white">About Venue</h3>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">@Model.Data.Description</p>
+            </section>
+
+            <section class="space-y-4">
+                <h3 class="text-2xl font-black text-slate-900 dark:text-white">Amenities</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    @foreach (var item in Model.Data.Amenities)
+                    {
+                        <div class="flex items-center gap-3 p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700">
+                            <span class="material-symbols-outlined text-primary">@item.Icon</span>
+                            <span class="text-sm font-bold text-slate-700 dark:text-slate-200">@item.Name</span>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <section class="space-y-6">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-2xl font-black text-slate-900 dark:text-white">User Reviews</h3>
+                    <button class="text-primary font-bold text-sm hover:underline">Write a Review</button>
+                </div>
+                <div class="space-y-6">
+                    @foreach (var review in Model.Data.Reviews)
+                    {
+                        <div class="p-6 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="size-10 rounded-full bg-cover bg-center" style='background-image: url(@review.UserAvatar);'></div>
+                                    <div>
+                                        <h4 class="font-black text-slate-900 dark:text-white text-sm">@review.UserName</h4>
+                                        <p class="text-xs text-slate-500 font-bold">@review.TimeAgo</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-0.5 text-amber-500">
+                                    @for (int i = 0; i < 5; i++)
+                                    {
+                                        <span class="material-symbols-outlined text-sm @(i < review.Rating ? "fill-1" : "fill-0")">star</span>
+                                    }
+                                </div>
+                            </div>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed font-medium">"@review.Comment"</p>
+                        </div>
+                    }
+                </div>
+            </section>
+        </div>
+
+        <div class="lg:w-[400px]">
+            <div class="sticky top-24 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-2xl overflow-hidden">
+                <div class="p-6 border-b border-slate-100 dark:border-slate-700">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-black text-slate-900 dark:text-white">Booking & Schedule</h3>
+                        <div class="text-right">
+                            <span class="text-2xl font-black text-primary">$@Model.Data.PricePerHour</span>
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-tighter">/ hour</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
+                        @foreach (var date in Model.Data.AvailableDates)
+                        {
+                            <button class="flex-shrink-0 flex flex-col items-center justify-center size-14 rounded-2xl @(date.IsSelected ? "bg-primary text-white" : "bg-slate-50 dark:bg-slate-900 text-slate-600 border border-slate-100")">
+                                <span class="text-[10px] font-black uppercase opacity-80">@date.Date.ToString("ddd")</span>
+                                <span class="text-lg font-black">@date.Date.Day</span>
+                            </button>
+                        }
+                    </div>
+                </div>
+                <div class="p-6 h-[400px] overflow-y-auto space-y-3 scrollbar-hide">
+                    @foreach (var slot in Model.Data.TimeSlots)
+                    {
+                        var statusStyle = slot.Status switch {
+                            "Selected" => "bg-primary/10 border-2 border-primary text-primary",
+                            "Booked" => "bg-slate-50 opacity-60 cursor-not-allowed",
+                            _ => "bg-white border-slate-200 hover:border-primary"
+                        };
+                        <div class="flex items-center justify-between p-4 rounded-2xl border transition-all @statusStyle">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined">schedule</span>
+                                <span class="font-bold">@slot.TimeRange</span>
+                            </div>
+                            <span class="text-[10px] font-black uppercase">@slot.Status</span>
+                        </div>
+                    }
+                </div>
+                <div class="p-6 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100">
+                    <button class="w-full bg-primary text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 shadow-xl shadow-primary/20">
+                        <span>Proceed to Booking</span>
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script>
+        
+    </script>
+}
