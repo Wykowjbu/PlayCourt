@@ -1,0 +1,182 @@
+﻿@page "/business/revenue"
+@model PlayCourt.WebApp.Pages.Business.RevenueModel
+@{
+    Layout = "_BusinessLayout";
+    ViewData["Title"] = "Revenue Dashboard";
+}
+
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+    <div>
+        <h1 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Revenue Dashboard</h1>
+        <p class="text-slate-500 font-medium">Track your facility's financial performance and growth.</p>
+    </div>
+    <div class="inline-flex bg-white dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+        <button class="px-4 py-2 text-xs font-bold text-slate-500 hover:text-primary rounded-lg transition-colors">Today</button>
+        <button class="px-4 py-2 text-xs font-bold text-slate-500 hover:text-primary rounded-lg transition-colors">Last 7 Days</button>
+        <button class="px-4 py-2 text-xs font-bold bg-primary text-white rounded-lg shadow-md shadow-primary/20">This Month</button>
+        <button class="px-4 py-2 text-xs font-bold text-slate-500 hover:text-primary rounded-lg transition-colors flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">calendar_today</span>
+            Custom Range
+        </button>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm relative overflow-hidden group">
+        <div class="flex justify-between items-start mb-4">
+            <div class="p-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg text-emerald-600">
+                <span class="material-symbols-outlined">payments</span>
+            </div>
+            <span class="flex items-center text-xs font-black text-emerald-500">
+                <span class="material-symbols-outlined text-xs mr-0.5">trending_up</span>
+                @Model.Data.RevenueGrowth%
+            </span>
+        </div>
+        <p class="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Total Revenue</p>
+        <h3 class="text-2xl font-black text-slate-900 dark:text-white">@Model.Data.TotalRevenue</h3>
+    </div>
+
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+        <div class="flex justify-between items-start mb-4">
+            <div class="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-blue-600">
+                <span class="material-symbols-outlined">analytics</span>
+            </div>
+            <span class="flex items-center text-xs font-black text-emerald-500">
+                <span class="material-symbols-outlined text-xs mr-0.5">trending_up</span>
+                @Model.Data.IncomeGrowth%
+            </span>
+        </div>
+        <p class="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Avg. Daily Income</p>
+        <h3 class="text-2xl font-black text-slate-900 dark:text-white">@Model.Data.AvgDailyIncome</h3>
+    </div>
+
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+        <div class="flex justify-between items-start mb-4">
+            <div class="p-2 bg-amber-50 dark:bg-amber-900/30 rounded-lg text-amber-600">
+                <span class="material-symbols-outlined">book_online</span>
+            </div>
+            <span class="flex items-center text-xs font-black @(Model.Data.BookingsGrowth < 0 ? "text-rose-500" : "text-emerald-500")">
+                <span class="material-symbols-outlined text-xs mr-0.5">@(Model.Data.BookingsGrowth < 0 ? "trending_down" : "trending_up")</span>
+                @Math.Abs(Model.Data.BookingsGrowth)%
+            </span>
+        </div>
+        <p class="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Total Bookings</p>
+        <h3 class="text-2xl font-black text-slate-900 dark:text-white">@Model.Data.TotalBookings.ToString("N0")</h3>
+    </div>
+
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+        <div class="flex justify-between items-start mb-4">
+            <div class="p-2 bg-purple-50 dark:bg-purple-900/30 rounded-lg text-purple-600">
+                <span class="material-symbols-outlined">event_seat</span>
+            </div>
+            <span class="flex items-center text-xs font-black text-emerald-500">
+                <span class="material-symbols-outlined text-xs mr-0.5">trending_up</span>
+                @Model.Data.OccupancyGrowth%
+            </span>
+        </div>
+        <p class="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Occupancy Rate</p>
+        <h3 class="text-2xl font-black text-slate-900 dark:text-white">@Model.Data.OccupancyRate</h3>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+    <div class="lg:col-span-2 bg-white dark:bg-slate-800 p-8 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+        <div class="flex items-center justify-between mb-8">
+            <h3 class="font-black text-lg text-slate-900 dark:text-white tracking-tight">Revenue Trends</h3>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-1.5">
+                    <span class="size-2 rounded-full bg-primary"></span>
+                    <span class="text-xs font-bold text-slate-500">Current Period</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <span class="size-2 rounded-full bg-slate-200"></span>
+                    <span class="text-xs font-bold text-slate-500">Previous Period</span>
+                </div>
+            </div>
+        </div>
+        <div class="h-64 w-full relative">
+            <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 400 100">
+                <line class="text-slate-100 dark:text-slate-700" stroke="currentColor" stroke-dasharray="4" stroke-width="0.5" x1="0" x2="400" y1="0" y2="0"></line>
+                <line class="text-slate-100 dark:text-slate-700" stroke="currentColor" stroke-dasharray="4" stroke-width="0.5" x1="0" x2="400" y1="25" y2="25"></line>
+                <line class="text-slate-100 dark:text-slate-700" stroke="currentColor" stroke-dasharray="4" stroke-width="0.5" x1="0" x2="400" y1="50" y2="50"></line>
+                <line class="text-slate-100 dark:text-slate-700" stroke="currentColor" stroke-dasharray="4" stroke-width="0.5" x1="0" x2="400" y1="75" y2="75"></line>
+                <path d="M0 80 Q 40 40, 80 60 T 160 30 T 240 50 T 320 20 T 400 40 L 400 100 L 0 100 Z" fill="url(#chartGradient)"></path>
+                <path d="M0 80 Q 40 40, 80 60 T 160 30 T 240 50 T 320 20 T 400 40" fill="none" stroke="#22c55e" stroke-linecap="round" stroke-width="2.5"></path>
+                <defs>
+                    <linearGradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stop-color="#22c55e" stop-opacity="0.15"></stop>
+                        <stop offset="100%" stop-color="#22c55e" stop-opacity="0"></stop>
+                    </linearGradient>
+                </defs>
+            </svg>
+            <div class="flex justify-between mt-4">
+                <span class="text-[10px] font-black text-slate-400 uppercase">Week 1</span>
+                <span class="text-[10px] font-black text-slate-400 uppercase">Week 2</span>
+                <span class="text-[10px] font-black text-slate-400 uppercase">Week 3</span>
+                <span class="text-[10px] font-black text-slate-400 uppercase">Week 4</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+        <h3 class="font-black text-lg text-slate-900 dark:text-white tracking-tight mb-8">Breakdown by Sport</h3>
+        <div class="relative size-48 mx-auto mb-8">
+            <svg class="size-full" viewBox="0 0 36 36">
+                <circle cx="18" cy="18" fill="none" r="15.915" stroke="#e2e8f0" stroke-width="4"></circle>
+                <circle cx="18" cy="18" fill="none" r="15.915" stroke="#22c55e" stroke-dasharray="45 100" stroke-dashoffset="25" stroke-width="4"></circle>
+                <circle cx="18" cy="18" fill="none" r="15.915" stroke="#3b82f6" stroke-dasharray="35 100" stroke-dashoffset="80" stroke-width="4"></circle>
+                <circle cx="18" cy="18" fill="none" r="15.915" stroke="#f59e0b" stroke-dasharray="20 100" stroke-dashoffset="115" stroke-width="4"></circle>
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <span class="text-2xl font-black text-slate-900 dark:text-white">100%</span>
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Revenue</span>
+            </div>
+        </div>
+        <div class="flex flex-col gap-3">
+            @foreach (var sport in Model.Data.SportBreakdown)
+            {
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="size-2.5 rounded-full @sport.ColorClass"></span>
+                        <span class="text-xs font-bold text-slate-600 dark:text-slate-300">@sport.SportName</span>
+                    </div>
+                    <span class="text-xs font-black text-slate-900 dark:text-white">@sport.Amount</span>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+    <div class="p-6 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
+        <h3 class="font-black text-lg text-slate-900 dark:text-white uppercase tracking-tight">Recent Revenue Sources</h3>
+        <button class="text-primary text-xs font-black uppercase tracking-widest hover:underline">Download Report</button>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-slate-50 dark:bg-slate-900/50">
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Transaction ID</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Customer</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Sport</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Date/Time</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-500 text-right">Amount</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                @foreach (var item in Model.Data.RecentTransactions)
+                {
+                    <tr class="hover:bg-slate-50/50 transition-colors">
+                        <td class="px-6 py-4 text-xs font-bold text-slate-500">@item.TransactionId</td>
+                        <td class="px-6 py-4 text-xs font-bold text-slate-900 dark:text-white">@item.CustomerName</td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-black @item.SportBadgeClass">@item.Sport</span>
+                        </td>
+                        <td class="px-6 py-4 text-xs font-medium text-slate-500">@item.DateTime</td>
+                        <td class="px-6 py-4 text-xs font-black text-slate-900 dark:text-white text-right">@item.Amount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
