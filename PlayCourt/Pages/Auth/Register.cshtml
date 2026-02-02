@@ -31,13 +31,13 @@
                             <span class="truncate flex items-center gap-2">
                                 <span class="material-symbols-outlined text-xl">person</span> Player
                             </span>
-                            <input asp-for="Input.Role" value="Player" class="invisible w-0" type="radio" checked />
+                            <input asp-for="Input.Role" value="Player" class="invisible w-0" type="radio" checked onclick="goPlayer()" />
                         </label>
                         <label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-xl px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-[#1a2e1d] has-[:checked]:shadow-sm has-[:checked]:text-[#0d1b0f] dark:has-[:checked]:text-primary text-gray-500 dark:text-gray-400 text-sm font-bold transition-all">
                             <span class="truncate flex items-center gap-2">
                                 <span class="material-symbols-outlined text-xl">stadium</span> Court Owner
                             </span>
-                            <input asp-for="Input.Role" value="CourtOwner" class="invisible w-0" type="radio" />
+                            <input asp-for="Input.Role" value="CourtOwner" class="invisible w-0" type="radio" onclick="goOwner()" />
                         </label>
                     </div>
                 </div>
@@ -71,6 +71,17 @@
                         </div>
                         <span asp-validation-for="Input.Password" class="text-xs text-red-500 ml-1"></span>
                     </div>
+
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">Confirm Password</label>
+                        <div class="relative">
+                            <input asp-for="Input.ConfirmPassword" class="w-full h-14 rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#111c12] px-5 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all placeholder:text-gray-400" placeholder="Confirm Your Password" />
+                            <button type="button" class="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" onclick="togglePassword()">
+                                <span class="material-symbols-outlined" id="pw-icon">visibility</span>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-xs text-red-500 ml-1"></span>
+                    </div>
                 </div>
 
                 <button class="w-full h-14 bg-primary hover:brightness-110 text-black font-extrabold rounded-2xl shadow-xl shadow-primary/20 transition-all mt-8 active:scale-[0.98]" type="submit">
@@ -100,5 +111,13 @@
                 pwIcon.innerText = 'visibility';
             }
         }
+
+        function goOwner() {
+            window.location.href = '/register-owner';
+		}
+
+        function goPlayer() {
+			window.location.href = '/register';
+		}
     </script>
 }
