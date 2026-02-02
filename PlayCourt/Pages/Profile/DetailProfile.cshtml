@@ -1,0 +1,115 @@
+﻿@page
+@model PlayCourt.Pages.Profile.DetailProfileModel
+@{
+    Layout = "_PlayerProfileLayout";
+    ViewData["Title"] = "Profile Settings";
+}
+<div class="max-w-4xl mx-auto px-10 py-12">
+    <div class="mb-10">
+        <h2 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Profile Settings</h2>
+        <p class="text-slate-500 dark:text-slate-400 mt-2 text-lg">Manage your personal information and skill levels under the PlayCourt identity.</p>
+    </div>
+
+    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-8 mb-10 shadow-sm">
+        <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="relative">
+                <div class="w-32 h-32 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-800 ring-4 ring-white dark:ring-slate-800 shadow-xl">
+                    <img alt="Profile Avatar" class="w-full h-full object-cover" src="@Model.ViewModel.AvatarUrl" />
+                </div>
+                <button class="absolute bottom-1 right-1 bg-primary text-white w-9 h-9 flex items-center justify-center rounded-full shadow-lg border-4 border-white dark:border-slate-900 hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-lg">photo_camera</span>
+                </button>
+            </div>
+            <div class="flex-1 text-center md:text-left">
+                <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 mb-1">
+                    <h3 class="text-2xl font-bold">@Model.ViewModel.FullName</h3>
+                    @if (Model.ViewModel.IsVerified)
+                    {
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 w-fit mx-auto md:mx-0">Verified Player</span>
+                    }
+                </div>
+                <p class="text-slate-500 dark:text-slate-400">@Model.ViewModel.Email</p>
+                <div class="mt-6 flex flex-wrap justify-center md:justify-start gap-3">
+                    <button class="px-5 py-2.5 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-all shadow-md shadow-primary/20">Change Photo</button>
+                    <button class="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-sm font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form method="post">
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold flex items-center gap-2.5">
+                    <span class="material-symbols-outlined text-primary bg-primary/10 p-1.5 rounded-lg">person</span>
+                    Personal Information
+                </h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <label class="flex flex-col gap-2.5">
+                    <span class="text-sm font-bold text-slate-700 dark:text-slate-300">Full Name</span>
+                    <input asp-for="ViewModel.FullName" class="form-input rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 transition-all" placeholder="John Doe" />
+                </label>
+                <label class="flex flex-col gap-2.5">
+                    <span class="text-sm font-bold text-slate-700 dark:text-slate-300">Phone Number</span>
+                    <div class="flex">
+                        <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-700 text-slate-500 font-medium text-sm">+84</span>
+                        <input asp-for="ViewModel.PhoneNumber" type="tel" class="form-input flex-1 rounded-r-xl border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 transition-all" placeholder="0901234567" />
+                    </div>
+                </label>
+                <label class="flex flex-col gap-2.5 md:col-span-2">
+                    <span class="text-sm font-bold text-slate-700 dark:text-slate-300">Location (Da Nang District)</span>
+                    <select asp-for="ViewModel.SelectedDistrict" asp-items="@(new SelectList(Model.ViewModel.AvailableDistricts))" class="form-select rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 transition-all">
+                    </select>
+                </label>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <div class="mb-6">
+                <h3 class="text-xl font-bold flex items-center gap-2.5 mb-2">
+                    <span class="material-symbols-outlined text-primary bg-primary/10 p-1.5 rounded-lg">star</span>
+                    Racket Sports Proficiency
+                </h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400">Help PlayCourt match you with players of similar skill levels.</p>
+            </div>
+            <div class="space-y-4">
+                @foreach (var sport in Model.ViewModel.Sports)
+                {
+                    <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-sm">
+                        <div class="flex items-center gap-5">
+                            <div class="w-14 h-14 rounded-xl @sport.BgColorClass dark:bg-opacity-20 flex items-center justify-center @sport.IconColorClass">
+                                <span class="material-symbols-outlined text-3xl">@sport.IconName</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">@sport.SportName</h4>
+                                <p class="text-sm text-slate-400">@sport.StatusText</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2 p-1 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700">
+                            @{
+                                var levels = new[] { "Beginner", "Intermediate", "Advanced" };
+                            }
+                            @foreach (var level in levels)
+                            {
+                                var isActive = sport.CurrentLevel == level;
+                                <button type="button" class="px-5 py-2 text-xs font-bold rounded-lg border @(isActive ? "skill-badge-active" : "border-transparent skill-badge-inactive")">
+                                    @level
+                                </button>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+
+        <div class="flex items-center justify-end gap-5 pt-10 border-t border-slate-200 dark:border-slate-800">
+            <button type="button" class="px-6 py-3.5 rounded-xl text-slate-600 dark:text-slate-400 font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                Discard
+            </button>
+            <button type="submit" class="px-10 py-3.5 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all active:scale-[0.98]">
+                Save Profile
+            </button>
+        </div>
+    </form>
+</div>
