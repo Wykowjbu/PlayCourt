@@ -14,7 +14,7 @@ namespace PlayCourt.Pages.Auth
         {
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
