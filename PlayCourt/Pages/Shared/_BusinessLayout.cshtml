@@ -1,6 +1,20 @@
 ﻿@{
     Layout = "_Layout";
 }
+
+@section Styles {
+    <style>
+        /* Toggle switches for business pages */
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #22c55e;
+        }
+        .toggle-checkbox:checked {
+            transform: translateX(1.25rem);
+            border-color: #22c55e;
+        }
+    </style>
+}
+
     <header class="sticky top-0 z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 @ViewData["HeaderClass"]">
         <div class="max-w-[1440px] mx-auto px-6 @(ViewData["HeaderHeight"] ?? "h-18") flex items-center justify-between py-4">
             <div class="flex items-center gap-8">

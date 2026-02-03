@@ -1,0 +1,158 @@
+@page "/business/courts"
+@model PlayCourt.WebApp.Pages.Business.CourtsModel
+@{
+    Layout = "_BusinessLayout";
+    ViewData["Title"] = "Manage Courts & Pricing";
+    ViewData["ActiveNav"] = "Courts";
+}
+
+<div class="flex flex-col gap-8">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Manage Courts</h1>
+            <p class="text-slate-500 font-medium">Configure court availability and hourly pricing models.</p>
+        </div>
+        <button class="bg-primary text-white font-black py-3 px-6 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-primary/20">
+            <span class="material-symbols-outlined font-bold">add</span>
+            <span>Add Sub-Court</span>
+        </button>
+    </div>
+
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500">Court Name</th>
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500">Sport Type</th>
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500">Pricing Policy</th>
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500">Status</th>
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                    @foreach (var court in Model.Data.Courts)
+                    {
+                        <tr class="group hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition-colors">
+                            <td class="px-6 py-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="size-10 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500">
+                                        <span class="material-symbols-outlined">grid_view</span>
+                                    </div>
+                                    <span class="font-bold text-slate-900 dark:text-white">@court.Name</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-6">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full @court.SportBadgeClass text-xs font-bold">
+                                    <span class="material-symbols-outlined text-sm">sports_tennis</span>
+                                    @court.SportType
+                                </span>
+                            </td>
+                            <td class="px-6 py-6">
+                                <div class="flex flex-col gap-1">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-sm font-black text-slate-900 dark:text-white">@court.RegularRate</span>
+                                        <span class="text-[10px] font-bold text-slate-400 uppercase">Regular</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-sm font-black text-primary">@court.PeakRate</span>
+                                        <span class="text-[10px] font-bold text-slate-400 uppercase">Peak</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-6">
+                                <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                    <input @(court.IsActive ? "checked" : "") class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-slate-300 transition-transform duration-200 ease-in-out z-10" id="toggle@(court.Id)" name="toggle" type="checkbox"/>
+                                    <label class="toggle-label block overflow-hidden h-5 rounded-full bg-slate-300 cursor-pointer" for="toggle@(court.Id)"></label>
+                                </div>
+                                <span class="text-xs font-bold @(court.IsActive ? "text-slate-600 dark:text-slate-400" : "text-slate-400")">@court.StatusText</span>
+                            </td>
+                            <td class="px-6 py-6 text-right">
+                                <div class="flex items-center justify-end gap-2">
+                                    <button class="p-2 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-all">
+                                        <span class="material-symbols-outlined text-xl">edit</span>
+                                    </button>
+                                    <button class="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all">
+                                        <span class="material-symbols-outlined text-xl">delete</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        @if (court.ShowPricingDetails && court.PricingConfig != null)
+                        {
+                            <tr class="bg-slate-50/50 dark:bg-slate-900/30">
+                                <td class="px-6 py-8" colspan="5">
+                                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-8 max-w-4xl shadow-sm">
+                                        <div class="flex items-center gap-2 mb-6 text-primary">
+                                            <span class="material-symbols-outlined">payments</span>
+                                            <h3 class="font-black text-lg text-slate-900 dark:text-white uppercase tracking-tight">Pricing Configuration: @court.Name</h3>
+                                        </div>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                            <div class="flex flex-col gap-4">
+                                                <label class="text-xs font-black text-slate-500 uppercase tracking-widest">Regular Hourly Rate</label>
+                                                <div class="relative">
+                                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
+                                                    <input class="w-full pl-8 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 rounded-xl focus:ring-primary focus:border-primary text-sm font-bold text-slate-900 dark:text-white" step="0.01" type="number" value="@court.PricingConfig.RegularHourlyRate.ToString("F2")"/>
+                                                </div>
+                                                <p class="text-[11px] text-slate-400 font-medium italic">Applied to all hours outside of defined peak ranges.</p>
+                                            </div>
+                                            <div class="flex flex-col gap-4">
+                                                <div class="flex items-center justify-between">
+                                                    <label class="text-xs font-black text-primary uppercase tracking-widest">Peak Hour Rate</label>
+                                                    @if (court.PricingConfig.IsPeakActive)
+                                                    {
+                                                        <span class="bg-primary/10 text-primary text-[10px] font-black px-2 py-0.5 rounded uppercase">Active</span>
+                                                    }
+                                                </div>
+                                                <div class="relative">
+                                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-primary font-bold">$</span>
+                                                    <input class="w-full pl-8 pr-4 py-3 bg-primary/5 border-primary/20 rounded-xl focus:ring-primary focus:border-primary text-sm font-bold text-slate-900 dark:text-white" step="0.01" type="number" value="@court.PricingConfig.PeakHourlyRate.ToString("F2")"/>
+                                                </div>
+                                                <div class="flex flex-col gap-2 mt-2">
+                                                    <label class="text-[11px] font-bold text-slate-500 uppercase">Peak Time Range</label>
+                                                    <div class="flex items-center gap-2">
+                                                        <input class="flex-1 py-2 px-3 bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold" type="time" value="@court.PricingConfig.PeakStartTime"/>
+                                                        <span class="text-slate-400 font-bold">to</span>
+                                                        <input class="flex-1 py-2 px-3 bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold" type="time" value="@court.PricingConfig.PeakEndTime"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-700 flex justify-end gap-3">
+                                            <button class="px-6 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all">Reset Changes</button>
+                                            <button class="px-6 py-2.5 rounded-xl text-sm font-black bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-primary dark:hover:bg-primary dark:hover:text-white transition-all shadow-md">Update Pricing</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <div class="size-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined font-bold text-3xl">info</span>
+            </div>
+            <h4 class="font-black text-lg text-slate-900 dark:text-white mb-2">How Pricing Works</h4>
+            <p class="text-sm text-slate-500 font-medium">Regular rates apply to all bookings by default. Peak rates override the price during specific hours to help manage high demand.</p>
+        </div>
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <div class="size-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined font-bold text-3xl">build</span>
+            </div>
+            <h4 class="font-black text-lg text-slate-900 dark:text-white mb-2">Maintenance Mode</h4>
+            <p class="text-sm text-slate-500 font-medium">Toggling a court to 'Maintenance' prevents new bookings and notifies players with existing reservations that the court is unavailable.</p>
+        </div>
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <div class="size-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined font-bold text-3xl">history</span>
+            </div>
+            <h4 class="font-black text-lg text-slate-900 dark:text-white mb-2">Pricing History</h4>
+            <p class="text-sm text-slate-500 font-medium">View how your pricing adjustments have impacted court occupancy and revenue over the last 30 days in the Analytics tab.</p>
+        </div>
+    </div>
+</div>
