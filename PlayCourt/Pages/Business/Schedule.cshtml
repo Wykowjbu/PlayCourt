@@ -1,0 +1,127 @@
+@page "/business/schedule"
+@model PlayCourt.WebApp.Pages.Business.ScheduleModel
+@{
+    Layout = "_BusinessLayout";
+    ViewData["Title"] = "Manage Schedule & Booking List";
+    ViewData["ActiveNav"] = "Bookings";
+}
+
+<div class="flex flex-col gap-8">
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+            <h1 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Manage Schedule</h1>
+            <p class="text-slate-500 font-medium">Oversee all reservations and matchmaking activities.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-4">
+            <div class="relative min-w-[300px]">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                <input class="w-full pl-11 pr-4 py-3 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-xl focus:ring-primary focus:border-primary text-sm font-medium" placeholder="Search player or host name..." type="text"/>
+            </div>
+            <div class="flex items-center gap-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2">
+                <span class="material-symbols-outlined text-slate-400 text-lg">calendar_today</span>
+                <input class="border-none bg-transparent text-sm font-bold focus:ring-0 p-0 text-slate-700 dark:text-white" type="date" value="2024-05-24"/>
+                <span class="text-slate-400 text-xs font-bold uppercase">to</span>
+                <input class="border-none bg-transparent text-sm font-bold focus:ring-0 p-0 text-slate-700 dark:text-white" type="date" value="2024-05-31"/>
+            </div>
+            <button class="bg-primary text-white font-black py-3 px-6 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-primary/20">
+                <span class="material-symbols-outlined font-bold text-xl">add</span>
+                <span>New Booking</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500">Booking ID</th>
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500">Player/Host</th>
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500">Sport</th>
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500">Time Slot</th>
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500">Type</th>
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500">Status</th>
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                    @foreach (var booking in Model.Data.Bookings)
+                    {
+                        <tr class="group hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition-colors">
+                            <td class="px-6 py-5">
+                                <span class="text-sm font-black text-slate-400">@booking.BookingId</span>
+                            </td>
+                            <td class="px-6 py-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="size-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center font-bold text-xs text-slate-500">@booking.PlayerInitials</div>
+                                    <span class="font-bold text-slate-900 dark:text-white">@booking.PlayerName</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full @booking.SportBadgeClass text-xs font-bold">
+                                    @booking.Sport
+                                </span>
+                            </td>
+                            <td class="px-6 py-5">
+                                <div class="flex flex-col">
+                                    <span class="text-sm font-bold text-slate-900 dark:text-white">@booking.Date</span>
+                                    <span class="text-xs font-medium text-slate-500">@booking.TimeSlot (@booking.Duration)</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5">
+                                <span class="text-xs font-bold @booking.BookingTypeBadgeClass px-2 py-1 rounded">@booking.BookingType</span>
+                            </td>
+                            <td class="px-6 py-5">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full @booking.StatusBadgeClass text-[10px] font-black uppercase tracking-wider">
+                                    @booking.Status
+                                </span>
+                            </td>
+                            <td class="px-6 py-5 text-right">
+                                <button class="px-4 py-2 text-sm font-bold text-primary hover:bg-primary/10 rounded-lg transition-all border border-primary/20">Edit</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">@Model.Data.Pagination.DisplayText</p>
+            <div class="flex gap-2">
+                <button class="p-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-primary transition-colors @(Model.Data.Pagination.CurrentPage == 1 ? "disabled:opacity-50" : "")" disabled="@(Model.Data.Pagination.CurrentPage == 1)">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <button class="p-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-primary transition-colors @(Model.Data.Pagination.CurrentPage >= Model.Data.Pagination.TotalPages ? "disabled:opacity-50" : "")">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Today's Bookings</p>
+            <h4 class="text-2xl font-black text-slate-900 dark:text-white">@Model.Data.Stats.TodayBookings</h4>
+            <div class="mt-2 flex items-center gap-1 text-primary">
+                <span class="material-symbols-outlined text-sm font-bold">trending_up</span>
+                <span class="text-xs font-bold">@Model.Data.Stats.TodayGrowth vs yesterday</span>
+            </div>
+        </div>
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Active Matches</p>
+            <h4 class="text-2xl font-black text-blue-500">@Model.Data.Stats.ActiveMatches</h4>
+            <p class="mt-2 text-xs font-medium text-slate-500">Across all sports</p>
+        </div>
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Court Occupancy</p>
+            <h4 class="text-2xl font-black text-slate-900 dark:text-white">@Model.Data.Stats.OccupancyRate%</h4>
+            <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-3">
+                <div class="bg-primary h-full rounded-full" style="width: @(Model.Data.Stats.OccupancyRate)%"></div>
+            </div>
+        </div>
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Pending Requests</p>
+            <h4 class="text-2xl font-black text-amber-500">@Model.Data.Stats.PendingRequests</h4>
+            <p class="mt-2 text-xs font-medium text-slate-500">Requires manual approval</p>
+        </div>
+    </div>
+</div>
