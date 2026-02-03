@@ -1,0 +1,191 @@
+@page
+@model PlayCourt.Pages.Matches.CreateModel
+@{
+    Layout = "_CreateMatchLayout";
+    ViewData["Title"] = "Create Match Request";
+}
+
+<div class="fixed inset-0 z-[100] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-[2.5rem] shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden relative">
+        <button type="button" onclick="window.history.back()" class="absolute top-6 right-8 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+            <span class="material-symbols-outlined text-3xl">close</span>
+        </button>
+
+        <div class="px-10 pt-10 pb-6 border-b border-slate-100 dark:border-slate-800">
+            <h2 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Create Match Request</h2>
+            <p class="text-slate-500 dark:text-slate-400 font-medium mt-1">Host a game and find your perfect opponents.</p>
+
+            <div class="flex items-center gap-4 mt-8">
+                <div class="flex items-center gap-2 group">
+                    <div class="size-8 rounded-full border-2 border-primary flex items-center justify-center text-primary text-sm font-black">1</div>
+                    <span class="text-sm font-black text-slate-900 dark:text-white">Match Details</span>
+                </div>
+                <div class="h-px w-8 bg-slate-200 dark:bg-slate-800"></div>
+                <div class="flex items-center gap-2 group opacity-40">
+                    <div class="size-8 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center text-slate-400 text-sm font-black">2</div>
+                    <span class="text-sm font-bold text-slate-500">Requirements</span>
+                </div>
+                <div class="h-px w-8 bg-slate-200 dark:bg-slate-800"></div>
+                <div class="flex items-center gap-2 group opacity-40">
+                    <div class="size-8 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center text-slate-400 text-sm font-black">3</div>
+                    <span class="text-sm font-bold text-slate-500">Cost Sharing</span>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" class="p-10 space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex flex-col gap-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400">Select Sport</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary">sports_tennis</span>
+                        <select asp-for="Input.SelectedSport" asp-items="@(new SelectList(Model.Input.AvailableSports))" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-2xl py-4 pl-12 pr-4 font-bold text-slate-800 dark:text-slate-200 focus:ring-primary focus:border-primary transition-all">
+                        </select>
+                    </div>
+                    <span asp-validation-for="Input.SelectedSport" class="text-xs text-red-500 font-medium"></span>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400">Venue</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary">location_on</span>
+                        <input asp-for="Input.Venue" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-2xl py-4 pl-12 pr-4 font-bold text-slate-800 dark:text-slate-200 focus:ring-primary focus:border-primary transition-all" placeholder="Search courts in Da Nang" type="text"/>
+                    </div>
+                    <span asp-validation-for="Input.Venue" class="text-xs text-red-500 font-medium"></span>
+                </div>
+
+                <div class="flex flex-col gap-2 md:col-span-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400">Date & Time</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary">calendar_today</span>
+                        <input asp-for="Input.DateTime" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-2xl py-4 pl-12 pr-4 font-bold text-slate-800 dark:text-slate-200 focus:ring-primary focus:border-primary transition-all" placeholder="Choose when to play" type="text"/>
+                    </div>
+                    <span asp-validation-for="Input.DateTime" class="text-xs text-red-500 font-medium"></span>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-slate-100 dark:border-slate-800">
+                <div class="flex flex-col gap-6">
+                    <div class="flex flex-col gap-4">
+                        <div class="flex justify-between items-center">
+                            <label class="text-xs font-black uppercase tracking-widest text-slate-400">Minimum Skill Level</label>
+                            <span class="text-sm font-black text-primary" id="skillLevelText">@Model.Input.GetSkillLevelText()</span>
+                        </div>
+                        <input asp-for="Input.MinimumSkillLevel" class="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="1" max="5" id="skillRange"/>
+                        <div class="flex justify-between text-[10px] font-bold text-slate-400 px-1">
+                            <span>BEGINNER</span>
+                            <span>AMATEUR</span>
+                            <span>INTERMEDIATE</span>
+                            <span>ADVANCED</span>
+                            <span>PRO</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/30 rounded-2xl">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-primary/10 text-primary p-2 rounded-xl">
+                                <span class="material-symbols-outlined">group_add</span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-black text-slate-900 dark:text-white">Players Needed</p>
+                                <p class="text-xs font-bold text-slate-400">How many slots to fill?</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <button type="button" onclick="decrementPlayers()" class="size-10 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-white transition-all shadow-sm">
+                                <span class="material-symbols-outlined">remove</span>
+                            </button>
+                            <span id="playersCount" class="text-xl font-black text-slate-900 dark:text-white w-4 text-center">@Model.Input.PlayersNeeded</span>
+                            <input asp-for="Input.PlayersNeeded" type="hidden" id="playersInput"/>
+                            <button type="button" onclick="incrementPlayers()" class="size-10 rounded-full bg-primary text-white flex items-center justify-center hover:brightness-110 transition-all shadow-md">
+                                <span class="material-symbols-outlined">add</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-slate-100 dark:border-slate-800">
+                <label class="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 block">Cost Sharing Mode</label>
+                <div class="grid grid-cols-2 gap-4">
+                    <label class="relative cursor-pointer">
+                        <input asp-for="Input.CostSharingMode" value="Split Equally" class="peer sr-only" type="radio" checked/>
+                        <div class="p-4 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 peer-checked:border-primary peer-checked:bg-primary/5 transition-all">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary">payments</span>
+                                <span class="font-black text-sm text-slate-900 dark:text-white">Split Equally</span>
+                            </div>
+                        </div>
+                    </label>
+                    <label class="relative cursor-pointer">
+                        <input asp-for="Input.CostSharingMode" value="Winner Stays" class="peer sr-only" type="radio"/>
+                        <div class="p-4 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 peer-checked:border-primary peer-checked:bg-primary/5 transition-all">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary">military_tech</span>
+                                <span class="font-black text-sm text-slate-900 dark:text-white">Winner Stays</span>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <span asp-validation-for="Input.CostSharingMode" class="text-xs text-red-500 font-medium mt-2 block"></span>
+            </div>
+
+            <div class="px-10 py-8 bg-slate-50 dark:bg-slate-800/50 -mx-10 -mb-10 flex items-center justify-between">
+                <button type="button" class="text-sm font-black text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">Save as Draft</button>
+                <div class="flex gap-4">
+                    <button type="button" onclick="window.history.back()" class="px-8 py-4 rounded-2xl text-sm font-black text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 transition-all">Cancel</button>
+                    <button type="submit" class="px-10 py-4 rounded-2xl text-sm font-black text-white bg-primary hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-primary/20 flex items-center gap-2">
+                        <span>Create Match</span>
+                        <span class="material-symbols-outlined text-base">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        let playersNeeded = @Model.Input.PlayersNeeded;
+        const playersCount = document.getElementById('playersCount');
+        const playersInput = document.getElementById('playersInput');
+        const skillRange = document.getElementById('skillRange');
+        const skillLevelText = document.getElementById('skillLevelText');
+
+        const skillLevels = [
+            'Beginner (1.0 - 2.5)',
+            'Amateur (2.5 - 3.0)',
+            'Intermediate (3.5 - 4.5)',
+            'Advanced (4.5 - 5.5)',
+            'Pro (5.5+)'
+        ];
+
+        function incrementPlayers() {
+            if (playersNeeded < 10) {
+                playersNeeded++;
+                updatePlayers();
+            }
+        }
+
+        function decrementPlayers() {
+            if (playersNeeded > 1) {
+                playersNeeded--;
+                updatePlayers();
+            }
+        }
+
+        function updatePlayers() {
+            playersCount.textContent = playersNeeded;
+            playersInput.value = playersNeeded;
+        }
+
+        skillRange.addEventListener('input', function() {
+            const level = parseInt(this.value) - 1;
+            skillLevelText.textContent = skillLevels[level];
+        });
+
+        // Initialize
+        playersInput.value = playersNeeded;
+    </script>
+}
