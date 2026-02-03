@@ -5,6 +5,12 @@
     ViewData["Title"] = Model.Data.Name;
 }
 
+<style type="text/tailwindcss">
+    .slot-selected{
+         @@apply bg-primary/10 border-2 border-primary text-primary;
+    }
+</style>
+
 <main class="max-w-[1280px] mx-auto px-6 pt-8 pb-24">
     <section class="grid grid-cols-4 grid-rows-2 gap-4 h-[500px] mb-12">
         <div class="col-span-2 row-span-2 relative overflow-hidden rounded-3xl group cursor-pointer">
@@ -95,17 +101,13 @@
             </section>
         </div>
 
-        <div class="lg:w-[400px]">
+        <div class="lg:w-[450px]">
             <div class="sticky top-24 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-2xl overflow-hidden">
                 <div class="p-6 border-b border-slate-100 dark:border-slate-700">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-xl font-black text-slate-900 dark:text-white">Booking & Schedule</h3>
-                        <div class="text-right">
-                            <span class="text-2xl font-black text-primary">$@Model.Data.PricePerHour</span>
-                            <span class="text-xs font-bold text-slate-400 uppercase tracking-tighter">/ hour</span>
-                        </div>
                     </div>
-                    <div class="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
+                    <div class="flex gap-2 overflow-x-auto scrollbar-hide">
                         @foreach (var date in Model.Data.AvailableDates)
                         {
                             <button class="flex-shrink-0 flex flex-col items-center justify-center size-14 rounded-2xl @(date.IsSelected ? "bg-primary text-white" : "bg-slate-50 dark:bg-slate-900 text-slate-600 border border-slate-100")">
@@ -115,25 +117,62 @@
                         }
                     </div>
                 </div>
+                <div class="p-6 grid gap-3 grid-cols-1 sm:grid-cols-6 lg:grid-cols-4">
+
+                    <button class="px-5 py-2.5 rounded-xl bg-primary text-white font-bold text-sm border-2 border-primary transition-all shadow-md shadow-primary/10">
+                        Court 1
+                    </button>
+
+                    <button class="px-5 py-2.5 rounded-xl bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-sm border-2 border-slate-200 dark:border-slate-700 hover:border-primary hover:text-primary transition-all">
+                        Court 2
+                    </button>
+
+                    <button class="px-5 py-2.5 rounded-xl bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-sm border-2 border-slate-200 dark:border-slate-700 hover:border-primary hover:text-primary transition-all">
+                        VIP Court
+                    </button>
+
+                    <button class="px-5 py-2.5 rounded-xl bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-sm border-2 border-slate-200 dark:border-slate-700 hover:border-primary hover:text-primary transition-all">
+                        Court 3
+                    </button>
+                    <button class="px-5 py-2.5 rounded-xl bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-sm border-2 border-slate-200 dark:border-slate-700 hover:border-primary hover:text-primary transition-all">
+                        Court 3
+                    </button>
+                    <button class="px-5 py-2.5 rounded-xl bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-sm border-2 border-slate-200 dark:border-slate-700 hover:border-primary hover:text-primary transition-all">
+                        Court 3
+                    </button>
+                    <button class="px-5 py-2.5 rounded-xl bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-sm border-2 border-slate-200 dark:border-slate-700 hover:border-primary hover:text-primary transition-all">
+                        Court 3
+                    </button>
+                </div>
+
                 <div class="p-6 h-[400px] overflow-y-auto space-y-3 scrollbar-hide">
                     @foreach (var slot in Model.Data.TimeSlots)
                     {
-                        var statusStyle = slot.Status switch {
-                            "Selected" => "bg-primary/10 border-2 border-primary text-primary",
-                            "Booked" => "bg-slate-50 opacity-60 cursor-not-allowed",
-                            _ => "bg-white border-slate-200 hover:border-primary"
-                        };
-                        <div class="flex items-center justify-between p-4 rounded-2xl border transition-all @statusStyle">
+                        var baseStyle = slot.Status == "Booked"
+                        ? "slot-item bg-slate-50 opacity-60 cursor-not-allowed"
+                        : "slot-item bg-white border-slate-200 hover:border-primary cursor-pointer";
+                        <div class="flex items-center justify-between p-4 rounded-2xl border transition-all @baseStyle"
+                             data-status="@slot.Status"
+                             data-time="@slot.TimeRange">
                             <div class="flex items-center gap-3">
                                 <span class="material-symbols-outlined">schedule</span>
                                 <span class="font-bold">@slot.TimeRange</span>
                             </div>
-                            <span class="text-[10px] font-black uppercase">@slot.Status</span>
+                            <div class="flex items-center justify-end bg-black/5 px-3 py-1 rounded-lg">
+                                <span class="text-xs font-black text-primary">$@Model.Data.PricePerHour</span>
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-tighter ml-1">/ hour</span>
+                            </div>
+                            <span class="status-label text-[10px] font-black uppercase">@slot.Status</span>
                         </div>
                     }
                 </div>
-                <div class="p-6 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100">
-                    <button class="w-full bg-primary text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 shadow-xl shadow-primary/20">
+                <div class="flex flex-row flex-nowrap items-center gap-2 justify-between bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 p-6">
+
+                    <a class="bg-red-600 text-white font-black px-3 py-3 rounded-2xl flex items-center justify-center gap-2 shadow-xl shadow-primary/20">
+                        <span>Cancel</span>
+                        <span class="material-symbols-outlined">close</span>
+                    </a>
+                    <button class="bg-primary text-white font-black px-3 py-3 rounded-2xl flex items-center justify-center gap-2 shadow-xl shadow-primary/20">
                         <span>Proceed to Booking</span>
                         <span class="material-symbols-outlined">arrow_forward</span>
                     </button>
@@ -145,6 +184,25 @@
 
 @section Scripts {
     <script>
+            document.addEventListener("DOMContentLoaded", () => {
+            const slots = document.querySelectorAll(".slot-item");
+
+            slots.forEach(slot => {
+                if (slot.dataset.status === "Booked") return;
+
+                    slot.addEventListener("click", () => {
+                        slots.forEach(s => {
+                            if (s.dataset.status !== "Booked") {
+                                s.classList.remove("slot-selected");
+                                s.querySelector(".status-label").innerText = "Available";
+                            }
+                        });
+                        slot.classList.add("slot-selected");
+                        slot.querySelector(".status-label").innerText = "Selected";
+                    });
+                });
+            });
 
     </script>
+
 }

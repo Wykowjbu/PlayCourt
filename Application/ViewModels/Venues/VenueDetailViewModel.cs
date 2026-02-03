@@ -47,5 +47,5 @@ public class ScheduleDateViewModel
 public class TimeSlotViewModel
 {
     public string TimeRange { get; set; }
-    public string Status { get; set; } // Available, Booked, Selected
+    public string Status { get; set; } // Available, Booked
 }
