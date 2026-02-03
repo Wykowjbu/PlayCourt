@@ -6,6 +6,20 @@
     ViewData["ActiveNav"] = "Courts";
 }
 
+@section Styles {
+    <style>
+        /* Toggle switches for business pages */
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #22c55e;
+        }
+
+        .toggle-checkbox:checked {
+            transform: translateX(1.25rem);
+            border-color: #22c55e;
+        }
+    </style>
+}
+
 <div class="flex flex-col gap-8">
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -82,7 +96,7 @@
                         {
                             <tr class="bg-slate-50/50 dark:bg-slate-900/30">
                                 <td class="px-6 py-8" colspan="5">
-                                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-8 max-w-4xl shadow-sm">
+                                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-8 max-full shadow-sm">
                                         <div class="flex items-center gap-2 mb-6 text-primary">
                                             <span class="material-symbols-outlined">payments</span>
                                             <h3 class="font-black text-lg text-slate-900 dark:text-white uppercase tracking-tight">Pricing Configuration: @court.Name</h3>
