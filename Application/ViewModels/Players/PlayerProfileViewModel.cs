@@ -8,16 +8,21 @@ namespace Application.ViewModels.Players
 {
     public class PlayerProfileViewModel
     {
-        // Header Info
+        // Header & Basic Info
         public string FullName { get; set; }
         public string Email { get; set; }
         public string AvatarUrl { get; set; }
         public bool IsVerified { get; set; }
-
-        // Personal Info Form
         public string PhoneNumber { get; set; }
+
+        // Detailed Address Logic
         public string SelectedDistrict { get; set; }
+        public string SelectedWard { get; set; }
+        public string StreetAddress { get; set; } // House Number + Street Name
+
+        // Select Lists
         public List<string> AvailableDistricts { get; set; } = new List<string>();
+        public List<string> AvailableWards { get; set; } = new List<string>(); // Should be loaded based on District
 
         // Proficiency
         public List<SportProficiencyViewModel> Sports { get; set; } = new List<SportProficiencyViewModel>();
@@ -26,10 +31,10 @@ namespace Application.ViewModels.Players
     public class SportProficiencyViewModel
     {
         public string SportName { get; set; }
-        public string IconName { get; set; } // e.g., "sports_tennis"
-        public string IconColorClass { get; set; } // e.g., "text-orange-600"
-        public string BgColorClass { get; set; } // e.g., "bg-orange-100"
+        public string IconName { get; set; }
+        public string IconColorClass { get; set; }
+        public string BgColorClass { get; set; }
         public string StatusText { get; set; }
-        public string CurrentLevel { get; set; } // Beginner, Intermediate, Advanced
+        public string CurrentLevel { get; set; }
     }
 }

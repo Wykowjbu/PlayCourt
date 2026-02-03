@@ -45,23 +45,48 @@
                     Personal Information
                 </h3>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+
                 <label class="flex flex-col gap-2.5">
-                    <span class="text-sm font-bold text-slate-700 dark:text-slate-300">Full Name</span>
-                    <input asp-for="ViewModel.FullName" class="form-input rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 transition-all" placeholder="John Doe" />
+                    <span class="form-label">Full Name</span>
+                    <input asp-for="ViewModel.FullName" class="form-control-shared form-input" placeholder="John Doe" />
                 </label>
+
                 <label class="flex flex-col gap-2.5">
-                    <span class="text-sm font-bold text-slate-700 dark:text-slate-300">Phone Number</span>
+                    <span class="form-label">Phone Number</span>
                     <div class="flex">
                         <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-700 text-slate-500 font-medium text-sm">+84</span>
-                        <input asp-for="ViewModel.PhoneNumber" type="tel" class="form-input flex-1 rounded-r-xl border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 transition-all" placeholder="0901234567" />
+                        <input asp-for="ViewModel.PhoneNumber" type="tel" class="form-control-shared form-input rounded-l-none" placeholder="0901234567" />
                     </div>
                 </label>
-                <label class="flex flex-col gap-2.5 md:col-span-2">
-                    <span class="text-sm font-bold text-slate-700 dark:text-slate-300">Location (Da Nang District)</span>
-                    <select asp-for="ViewModel.SelectedDistrict" asp-items="@(new SelectList(Model.ViewModel.AvailableDistricts))" class="form-select rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 transition-all">
-                    </select>
-                </label>
+
+                <div class="md:col-span-2 space-y-4">
+                    <div class="flex items-center gap-2 pt-2 pb-1">
+                        <span class="material-symbols-outlined text-slate-400 text-sm">location_on</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Detailed Address (Da Nang City)</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="flex flex-col gap-2.5">
+                            <span class="form-label">District</span>
+                            <select asp-for="ViewModel.SelectedDistrict" asp-items="@(new SelectList(Model.ViewModel.AvailableDistricts))" class="form-control-shared form-select">
+                                <option disabled selected>Select District</option>
+                            </select>
+                        </label>
+
+                        <label class="flex flex-col gap-2.5">
+                            <span class="form-label">Ward</span>
+                            <select asp-for="ViewModel.SelectedWard" asp-items="@(new SelectList(Model.ViewModel.AvailableWards))" class="form-control-shared form-select">
+                                <option disabled selected>Select Ward</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <label class="flex flex-col gap-2.5">
+                        <span class="form-label">Street / House Number</span>
+                        <input asp-for="ViewModel.StreetAddress" class="form-control-shared form-input" placeholder="e.g. 123 Vo Nguyen Giap Street" />
+                    </label>
+                </div>
             </div>
         </section>
 
