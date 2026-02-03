@@ -1,0 +1,117 @@
+﻿@page
+@model PlayCourt.Pages.Auth.VerifyAccountModel
+@{
+	Layout = "_AuthLayout";
+	ViewData["Title"] = "Verify Account"; 
+}
+
+<style>
+    .otp-input {
+        width: 4rem; /* ← cố định độ rộng ô */
+        height: 4rem; /* ← cố định chiều cao */
+        text-align: center; /* ← căn giữa ngang */
+        line-height: 4rem; /* ← căn giữa dọc */
+        font-size: 1.875rem; /* text-3xl */
+        font-weight: 700; /* font-bold */
+        border-radius: 1rem; /* rounded-xl */
+        border: 1px solid #e5e7eb;
+    }
+
+    .dark .otp-input {
+        border-color: rgba(255,255,255,0.1);
+    }
+</style>
+
+
+<div class="flex flex-1 flex-col items-center justify-center bg-background-light dark:bg-background-dark px-6 py-12 lg:px-20 overflow-y-auto">
+    <div class="w-full max-w-[480px]">
+        <div class="flex items-center gap-2 mb-10 lg:hidden">
+            <div class="flex items-center justify-center size-10 bg-primary rounded-xl text-white">
+                <span class="material-symbols-outlined font-bold">sports_tennis</span>
+            </div>
+            <span class="text-2xl font-bold tracking-tight">PlayCourt</span>
+        </div>
+
+        <div class="mb-10 text-center lg:text-left">
+            <h1 class="text-[#0d1b0f] dark:text-white tracking-tight text-4xl font-bold leading-tight mb-3">Verify Your Account</h1>
+            <p class="text-gray-500 dark:text-gray-400 text-lg">We've sent a 6-digit code to @Model.VerifyVM.TargetDestination</p>
+        </div>
+
+        <form method="post" class="space-y-8">
+            <input type="hidden" asp-for="VerifyVM.Email" />
+
+            <div class="grid grid-cols-6 gap-2 sm:gap-4">
+                <input asp-for="VerifyVM.Digit1" class="otp-input" maxlength="1" type="text" placeholder="·" autofocus />
+                <input asp-for="VerifyVM.Digit2" class="otp-input" maxlength="1" type="text" placeholder="·" />
+                <input asp-for="VerifyVM.Digit3" class="otp-input" maxlength="1" type="text" placeholder="·" />
+                <input asp-for="VerifyVM.Digit4" class="otp-input" maxlength="1" type="text" placeholder="·" />
+                <input asp-for="VerifyVM.Digit5" class="otp-input" maxlength="1" type="text" placeholder="·" />
+                <input asp-for="VerifyVM.Digit6" class="otp-input" maxlength="1" type="text" placeholder="·" />
+            </div>
+
+            <button class="w-full h-14 bg-primary hover:brightness-110 text-white font-extrabold rounded-2xl shadow-xl shadow-primary/20 transition-all active:scale-[0.98]" type="submit">
+                Verify & Proceed
+            </button>
+        </form>
+
+        <div class="mt-10 flex flex-col items-center gap-6">
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+                Didn't receive code?
+                <button id="resendBtn"
+                        class="text-primary font-bold hover:underline ml-1 disabled:opacity-50 disabled:no-underline"
+                        disabled="@(!Model.VerifyVM.CanResend)">
+                    Resend (<span id="countdown">@Model.VerifyVM.ResendCountdown</span>s)
+                </button>
+
+              
+            </p>
+            <a class="flex items-center gap-2 text-sm font-semibold text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors" href="/register">
+                <span class="material-symbols-outlined text-lg">arrow_back</span>
+                Back to Register
+            </a>
+        </div>
+
+        <p class="mt-16 text-center text-[10px] text-gray-400 uppercase tracking-widest leading-relaxed">
+            By verifying your account, you help us maintain a safe community for all players.
+        </p>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        // Optional: Script nhỏ để tự động focus ô tiếp theo khi nhập số
+        // Dev Frontend có thể implement thêm logic tại đây
+        const inputs = document.querySelectorAll('.otp-input');
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+             input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        //đếm ngược để mở nút resent
+                const countdownEl = document.getElementById("countdown");
+        const resendBtn = document.getElementById("resendBtn");
+
+        let timeLeft = parseInt(countdownEl.innerText);
+
+        const timer = setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                countdownEl.innerText = timeLeft;
+            } else {
+                clearInterval(timer);
+                resendBtn.disabled = false;   // MỞ NÚT resend
+                resendBtn.innerHTML = "Resend";
+            }
+        }, 1000);
+    </script>
+}
