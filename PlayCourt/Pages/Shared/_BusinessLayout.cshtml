@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 
-                @if (ViewData["ShowNavigation"] == null || (bool)ViewData["ShowNavigation"])
+                @if (ViewData["ShowNavigation"] == null || (bool?)ViewData["ShowNavigation"] != false)
                 {
                     <nav class="hidden md:flex items-center gap-8 border-l border-slate-200 dark:border-slate-700 pl-8">
                         <a class="text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-primary transition-colors @(ViewData["ActiveNav"]?.Equals("Dashboard") == true ? "text-primary" : "")" href="/business">Dashboard</a>
@@ -38,7 +38,7 @@
                     </nav>
                 }
                 
-                @if (ViewData["ShowDivider"] != null && (bool)ViewData["ShowDivider"])
+                @if (ViewData["ShowDivider"] is bool showDivider && showDivider)
                 {
                     <div class="ml-4 pl-4 border-l border-slate-200 dark:border-slate-800">
                         <span class="text-xs font-black uppercase tracking-widest text-slate-400">@ViewData["DividerText"]</span>
@@ -64,7 +64,7 @@
 
     @await RenderSectionAsync("Sidebar", required: false)
 
-    @if (ViewData["ShowSupportButton"] == null || (bool)ViewData["ShowSupportButton"])
+    @if (ViewData["ShowSupportButton"] == null || (bool?)ViewData["ShowSupportButton"] != false)
     {
         <div class="fixed bottom-8 right-8">
             <button class="flex items-center gap-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-4 rounded-2xl shadow-2xl hover:scale-105 active:scale-95 transition-all group">
@@ -74,7 +74,7 @@
         </div>
     }
 
-    @if (ViewData["ShowFooter"] != null && (bool)ViewData["ShowFooter"])
+    @if (ViewData["ShowFooter"] is bool showFooter && showFooter)
     {
         <footer class="mt-20 py-10 border-t border-slate-200 dark:border-slate-800">
             <div class="max-w-[1440px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
