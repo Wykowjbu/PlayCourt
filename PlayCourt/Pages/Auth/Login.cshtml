@@ -1,0 +1,75 @@
+﻿@page "/login"
+@model PlayCourt.Pages.Auth.LoginModel
+@{
+	ViewData["Title"] = "Login";
+	Layout = "_AuthLayout";
+	ViewData["AuthTitle"] = "Welcome Back!";
+	ViewData["AuthDescription"] = "Please login to your account to continue."; 
+}
+
+<div class="flex flex-1 flex-col items-center justify-center bg-background-light dark:bg-background-dark px-6 py-12 lg:px-20 overflow-y-auto">
+    <div class="w-full max-w-[480px]">
+        <div class="flex items-center gap-2 mb-10 lg:hidden">
+            <div class="flex items-center justify-center size-10 bg-primary rounded-xl text-black">
+                <span class="material-symbols-outlined font-bold">sports_tennis</span>
+            </div>
+            <span class="text-2xl font-bold tracking-tight text-[#0d1b0f] dark:text-white">PlayCourt</span>
+        </div>
+
+        <div class="mb-10 text-left">
+            <h1 class="text-[#0d1b0f] dark:text-white tracking-tight text-4xl font-bold leading-tight mb-3">Welcome Back!</h1>
+            <p class="text-gray-500 dark:text-gray-400 text-lg">Log in to your PlayCourt account</p>
+        </div>
+
+        <form method="post" class="space-y-5">
+            <div class="grid grid-cols-1 gap-5">
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">Email Address / Phone Number</label>
+                    <input asp-for="Input.Identifier" class="w-full h-14 rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#111c12] px-5 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all placeholder:text-gray-400" placeholder="Enter email or phone" type="text" />
+                    <span asp-validation-for="Input.Identifier" class="text-xs text-red-500 ml-1"></span>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                    <div class="flex items-center justify-between px-1">
+                        <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Password</label>
+                        <a class="text-sm font-semibold text-primary hover:underline" href="#">Forgot Password?</a>
+                    </div>
+                    <div class="relative">
+                        <input asp-for="Input.Password" class="w-full h-14 rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#111c12] px-5 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all placeholder:text-gray-400" placeholder="Enter your password" type="password" />
+                        <span asp-validation-for="Input.Password" class="text-xs text-red-500 ml-1"></span>
+
+                        <button class="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" type="button">
+                            <span class="material-symbols-outlined">visibility</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <button class="w-full h-14 bg-primary hover:brightness-110 text-black font-extrabold rounded-2xl shadow-xl shadow-primary/20 transition-all mt-8 active:scale-[0.98]" type="submit">
+                Log In
+            </button>
+        </form>
+
+        <div class="relative my-10">
+            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-200 dark:border-white/10"></div></div>
+            <div class="relative flex justify-center text-xs uppercase tracking-widest">
+                <span class="bg-background-light dark:bg-background-dark px-4 text-gray-400 font-bold">OR LOGIN WITH</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <button class="flex items-center justify-center gap-3 h-14 border border-gray-200 dark:border-white/10 rounded-2xl hover:bg-white dark:hover:bg-white/5 transition-all shadow-sm">
+                <img alt="Google" class="size-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALAUDQnjuVe_fGIqb7TNzKbuLoYMp8-vzNsl5zTY0VjtzxSmRc8DIxqIKZgxHMddpDq8yS59Cmc969ltpb8cDdM2CXy1HorcuCTZOuaNTcNnr2DeoEQ2wD3poBH3pYF6Vb11KfuJblBzZUVBvinK97LnXitVT6cUpsKj6Psk265wFF--dPLZigycrusKWWhsbRWRJl8tw81fqgVn7-3BN7GYfDtmNUmzMOsVXZgF0ziU6_72D9M2izCVan1xvcBxaceifBSSx-VvVP" />
+                <span class="text-sm font-bold">Google</span>
+            </button>
+            <button class="flex items-center justify-center gap-3 h-14 border border-gray-200 dark:border-white/10 rounded-2xl hover:bg-white dark:hover:bg-white/5 transition-all shadow-sm">
+                <img alt="Facebook" class="size-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu4bxODLkx-6a88MKZCzzYYPF3WYLQSHUHphmMBr8hTQ5ybxvQFwReHfq1JXRl8GaLqbqu6RvCSFUbQcO2YeqZ-gpUWvaSxTwDAk9tdx8yHTcU1E63hv62Ue67PWIPhikusRxKygsi0LZrQ6f7-pAXwg-b6BJ7urxC6CnFPQK7_t6MPzLLSqsmbkiHQEOj8oZr8s7G4gwjLKaIKZtJnZhBC45QNsMimTXBidj_vpPGJWdad8IddbFcjt83swCTSLgR7Ver-GI-umfE" />
+                <span class="text-sm font-bold">Facebook</span>
+            </button>
+        </div>
+
+        <p class="mt-10 text-center text-sm text-gray-500 dark:text-gray-400">
+            New to PlayCourt? <a class="text-primary font-bold hover:underline ml-1" href="/register">Create Account</a>
+        </p>
+    </div>
+</div>
+
+
