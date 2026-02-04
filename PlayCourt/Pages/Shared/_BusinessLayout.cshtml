@@ -1,6 +1,30 @@
 ﻿@{
     Layout = "_Layout";
 }
+
+@section Styles {
+    <style>
+        /* Navigation active indicator */
+        .nav-container {
+            position: relative;
+        }
+        
+        .nav-indicator {
+            position: absolute;
+            bottom: -1px;
+            height: 3px;
+            background-color: #22c55e;
+            transition: all 0.3s ease;
+            border-radius: 2px 2px 0 0;
+        }
+        
+        .nav-link {
+            position: relative;
+            padding-bottom: 4px;
+        }
+    </style>
+}
+
     <header class="sticky top-0 z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 @ViewData["HeaderClass"]">
         <div class="max-w-[1440px] mx-auto px-6 @(ViewData["HeaderHeight"] ?? "h-18") flex items-center justify-between py-4">
             <div class="flex items-center gap-8">
@@ -14,17 +38,17 @@
                     </div>
                 </div>
                 
-                @if (ViewData["ShowNavigation"] == null || (bool)ViewData["ShowNavigation"])
+                @if (ViewData["ShowNavigation"] == null || (ViewData["ShowNavigation"] as bool? == true))
                 {
-                    <nav class="hidden md:flex items-center gap-8 border-l border-slate-200 dark:border-slate-700 pl-8">
-                        <a class="text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-primary transition-colors @(ViewData["ActiveNav"]?.Equals("Dashboard") == true ? "text-primary" : "")" href="/business">Dashboard</a>
-                        <a class="text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-primary transition-colors @(ViewData["ActiveNav"]?.Equals("Courts") == true ? "text-primary" : "")" href="/business/courts">Courts & Pricing</a>
-                        <a class="text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-primary transition-colors @(ViewData["ActiveNav"]?.Equals("Bookings") == true ? "text-primary" : "")" href="/business/bookings">Bookings</a>
-                        <a class="text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-primary transition-colors @(ViewData["ActiveNav"]?.Equals("Revenue") == true ? "text-primary" : "")" href="/business/revenue">Analytics</a>
+                    <nav class="hidden md:flex items-center gap-8 border-l border-slate-200 dark:border-slate-700 pl-8 nav-container" id="mainNav">
+                        <a class="nav-link text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-primary transition-colors @(ViewData["ActiveNav"]?.Equals("Dashboard") == true ? "text-primary" : "")" href="/business/revenue" data-nav="dashboard">Dashboard</a>
+                        <a class="nav-link text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-primary transition-colors @(ViewData["ActiveNav"]?.Equals("Courts") == true ? "text-primary" : "")" href="/business/courts" data-nav="courts">Courts & Pricing</a>
+                        <a class="nav-link text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-primary transition-colors @(ViewData["ActiveNav"]?.Equals("Bookings") == true ? "text-primary" : "")" href="/business/schedule" data-nav="bookings">Schedule</a>
+                        <div class="nav-indicator"></div>
                     </nav>
                 }
                 
-                @if (ViewData["ShowDivider"] != null && (bool)ViewData["ShowDivider"])
+                @if (ViewData["ShowDivider"] != null && (ViewData["ShowDivider"] as bool? == true))
                 {
                     <div class="ml-4 pl-4 border-l border-slate-200 dark:border-slate-800">
                         <span class="text-xs font-black uppercase tracking-widest text-slate-400">@ViewData["DividerText"]</span>
@@ -50,7 +74,7 @@
 
     @await RenderSectionAsync("Sidebar", required: false)
 
-    @if (ViewData["ShowSupportButton"] == null || (bool)ViewData["ShowSupportButton"])
+    @if (ViewData["ShowSupportButton"] == null || (ViewData["ShowSupportButton"] as bool? == true))
     {
         <div class="fixed bottom-8 right-8">
             <button class="flex items-center gap-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-4 rounded-2xl shadow-2xl hover:scale-105 active:scale-95 transition-all group">
@@ -60,7 +84,7 @@
         </div>
     }
 
-    @if (ViewData["ShowFooter"] != null && (bool)ViewData["ShowFooter"])
+    @if (ViewData["ShowFooter"] != null && (ViewData["ShowFooter"] as bool? == true))
     {
         <footer class="mt-20 py-10 border-t border-slate-200 dark:border-slate-800">
             <div class="max-w-[1440px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
@@ -81,3 +105,47 @@
    
     
     @await RenderSectionAsync("Scripts", required: false)
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nav = document.getElementById('mainNav');
+            if (!nav) return;
+            
+            const links = nav.querySelectorAll('.nav-link');
+            const indicator = nav.querySelector('.nav-indicator');
+            
+            if (!indicator || links.length === 0) return;
+            
+            // Find active link
+            let activeLink = nav.querySelector('.nav-link.text-primary');
+            if (!activeLink) activeLink = links[0];
+            
+            // Set initial position
+            function updateIndicator(link) {
+                const navRect = nav.getBoundingClientRect();
+                const linkRect = link.getBoundingClientRect();
+                indicator.style.width = linkRect.width + 'px';
+                indicator.style.left = (linkRect.left - navRect.left) + 'px';
+            }
+            
+            // Initial position
+            updateIndicator(activeLink);
+            
+            // Hover effects
+            links.forEach(link => {
+                link.addEventListener('mouseenter', function() {
+                    updateIndicator(this);
+                });
+            });
+            
+            // Reset to active on mouse leave
+            nav.addEventListener('mouseleave', function() {
+                updateIndicator(activeLink);
+            });
+            
+            // Update on window resize
+            window.addEventListener('resize', function() {
+                updateIndicator(activeLink);
+            });
+        });
+    </script>
