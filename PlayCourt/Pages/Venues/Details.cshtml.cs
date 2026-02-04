@@ -51,6 +51,7 @@ public class DetailsModel : PageModel
             }
         };
 
+        ViewData["NavItem"] = "Find Courts";
         return Page();
     }
 }

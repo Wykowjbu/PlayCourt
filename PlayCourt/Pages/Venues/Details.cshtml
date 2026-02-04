@@ -12,32 +12,9 @@
 </style>
 
 <main class="max-w-[1280px] mx-auto px-6 pt-8 pb-24">
-    <section class="grid grid-cols-4 grid-rows-2 gap-4 h-[500px] mb-12">
-        <div class="col-span-2 row-span-2 relative overflow-hidden rounded-3xl group cursor-pointer">
-            <div class="w-full h-full bg-center bg-cover bg-no-repeat transition-transform duration-700 group-hover:scale-105" 
-                 style='background-image: url(@Model.Data.Images[0]);'></div>
-        </div>
-        @for (int i = 1; i<3 ; i++)
-        {
-            <div class="col-span-@(i==1? "2":"1") row-span-1 relative overflow-hidden rounded-3xl group cursor-pointer">
-                <div class="w-full h-full bg-center bg-cover bg-no-repeat transition-transform duration-700 group-hover:scale-105" 
-                     style='background-image: url(@Model.Data.Images[i]);'></div>
-            </div>
-        }
-        <div class="col-span-1 row-span-1 relative overflow-hidden rounded-3xl group cursor-pointer bg-slate-200">
-            @{
-                int extraPhotos = Model.Data.Images.Count - 4;
-            }
-            <div class="absolute inset-0 @( extraPhotos != 0? "bg-black/40" : "") flex items-center justify-center text-white z-10">
-                <span class="text-xl font-black">@(extraPhotos != 0 ? $"+ {extraPhotos} Photos" : "") </span>
-            </div>
-            <div class="w-full h-full bg-center bg-cover bg-no-repeat" style='background-image: url(@Model.Data.Images[3]);'></div>
-        </div>
-    </section>
-
     <div class="flex flex-col lg:flex-row gap-12">
         <div class="flex-1 space-y-12">
-            <div class="space-y-4">
+            <section class="space-y-4">
                 <div class="flex items-center gap-2">
                     <span class="bg-primary/10 text-primary text-[10px] font-black px-3 py-1 rounded-full uppercase">Top Rated Venue</span>
                     <span class="flex items-center gap-1 text-sm font-bold text-amber-500">
@@ -50,7 +27,29 @@
                     <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
                     <p class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">map</span> @Model.Data.DistanceInfo</p>
                 </div>
-            </div>
+            </section>
+            <section class="grid grid-cols-4 grid-rows-2 gap-4 h-[500px] mb-12">
+                <div class="col-span-2 row-span-2 relative overflow-hidden rounded-3xl group cursor-pointer">
+                    <div class="w-full h-full bg-center bg-cover bg-no-repeat transition-transform duration-700 group-hover:scale-105"
+                         style='background-image: url(@Model.Data.Images[0]);'></div>
+                </div>
+                @for (int i = 1; i < 3; i++)
+                {
+                    <div class="col-span-@(i == 1 ? "2" : "1") row-span-1 relative overflow-hidden rounded-3xl group cursor-pointer">
+                        <div class="w-full h-full bg-center bg-cover bg-no-repeat transition-transform duration-700 group-hover:scale-105"
+                             style='background-image: url(@Model.Data.Images[i]);'></div>
+                    </div>
+                }
+                <div class="col-span-1 row-span-1 relative overflow-hidden rounded-3xl group cursor-pointer bg-slate-200">
+                    @{
+                        int extraPhotos = Model.Data.Images.Count - 4;
+                    }
+                    <div class="absolute inset-0 @( extraPhotos != 0? "bg-black/40" : "") flex items-center justify-center text-white z-10">
+                        <span class="text-xl font-black">@(extraPhotos != 0 ? $"+ {extraPhotos} Photos" : "") </span>
+                    </div>
+                    <div class="w-full h-full bg-center bg-cover bg-no-repeat" style='background-image: url(@Model.Data.Images[3]);'></div>
+                </div>
+            </section>
 
             <section class="space-y-4">
                 <h3 class="text-2xl font-black text-slate-900 dark:text-white">About Venue</h3>
@@ -69,40 +68,10 @@
                     }
                 </div>
             </section>
-
-            <section class="space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-2xl font-black text-slate-900 dark:text-white">User Reviews</h3>
-                    <button class="text-primary font-bold text-sm hover:underline">Write a Review</button>
-                </div>
-                <div class="space-y-6">
-                    @foreach (var review in Model.Data.Reviews)
-                    {
-                        <div class="p-6 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 space-y-4">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="size-10 rounded-full bg-cover bg-center" style='background-image: url(@review.UserAvatar);'></div>
-                                    <div>
-                                        <h4 class="font-black text-slate-900 dark:text-white text-sm">@review.UserName</h4>
-                                        <p class="text-xs text-slate-500 font-bold">@review.TimeAgo</p>
-                                    </div>
-                                </div>
-                                <div class="flex gap-0.5 text-amber-500">
-                                    @for (int i = 0; i < 5; i++)
-                                    {
-                                        <span class="material-symbols-outlined text-sm @(i < review.Rating ? "fill-1" : "fill-0")">star</span>
-                                    }
-                                </div>
-                            </div>
-                            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed font-medium">"@review.Comment"</p>
-                        </div>
-                    }
-                </div>
-            </section>
         </div>
 
         <div class="lg:w-[450px]">
-            <div class="sticky top-24 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-2xl overflow-hidden">
+            <div class=" top-24 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-2xl overflow-hidden">
                 <div class="p-6 border-b border-slate-100 dark:border-slate-700">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-xl font-black text-slate-900 dark:text-white">Booking & Schedule</h3>
@@ -117,7 +86,7 @@
                         }
                     </div>
                 </div>
-                <div class="p-6 grid gap-3 grid-cols-1 sm:grid-cols-6 lg:grid-cols-4">
+                <div class="p-6 grid gap-3 grid-cols-2 sm:grid-cols-6 lg:grid-cols-4">
 
                     <button class="px-5 py-2.5 rounded-xl bg-primary text-white font-bold text-sm border-2 border-primary transition-all shadow-md shadow-primary/10">
                         Court 1
@@ -168,41 +137,219 @@
                 </div>
                 <div class="flex flex-row flex-nowrap items-center gap-2 justify-between bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 p-6">
 
-                    <a class="bg-red-600 text-white font-black px-3 py-3 rounded-2xl flex items-center justify-center gap-2 shadow-xl shadow-primary/20">
+                    <a class="cursor-pointer bg-red-600 text-white font-black px-3 py-3 rounded-2xl flex items-center justify-center gap-2 shadow-xl shadow-primary/20">
                         <span>Cancel</span>
                         <span class="material-symbols-outlined">close</span>
                     </a>
-                    <button class="bg-primary text-white font-black px-3 py-3 rounded-2xl flex items-center justify-center gap-2 shadow-xl shadow-primary/20">
+                    <button id="btnOpenModal" type="button" class="cursor-pointer bg-primary text-white font-black px-3 py-3 rounded-2xl flex items-center justify-center gap-2 shadow-xl shadow-primary/20">
                         <span>Proceed to Booking</span>
                         <span class="material-symbols-outlined">arrow_forward</span>
                     </button>
                 </div>
             </div>
         </div>
+
+    </div>
+    <div class="mt-10">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-2xl font-black text-slate-900 dark:text-white">User Reviews</h3>
+            <button class="text-primary font-bold text-sm hover:underline">Write a Review</button>
+        </div>
+        <div class="space-y-6">
+            @foreach (var review in Model.Data.Reviews)
+            {
+                <div class="p-6 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="size-10 rounded-full bg-cover bg-center" style='background-image: url(@review.UserAvatar);'></div>
+                            <div>
+                                <h4 class="font-black text-slate-900 dark:text-white text-sm">@review.UserName</h4>
+                                <p class="text-xs text-slate-500 font-bold">@review.TimeAgo</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-0.5 text-amber-500">
+                            @for (int i = 0; i < 5; i++)
+                            {
+                                <span class="material-symbols-outlined text-sm @(i < review.Rating ? "fill-1" : "fill-0")">star</span>
+                            }
+                        </div>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed font-medium">"@review.Comment"</p>
+                </div>
+            }
+        </div>
     </div>
 </main>
 
+<div id="overlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[9998] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+<div id="modal" class="fixed inset-0 z-[9999] min-h-screen flex items-center justify-center p-4 md:p-8 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="w-full flex flex-col max-h-[90vh] max-w-2xl bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800">
+        <div class="px-5 pt-6 pb-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0">
+            <div>
+                <h1 class="text-xl font-black text-slate-900 dark:text-white">Create Booking Request</h1>
+                <p class="text-slate-500 font-sm mt-1">Please review your booking details before proceeding.</p>
+            </div>
+            <button id="btnCloseModal" type="button" class="size-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:bg-slate-200 transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="flex-1 overflow-y-auto">
+            <form method="post" class="contents">
+                <div class="p-8 space-y-5 ">
+                    <div class="space-y-2">
+                        <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest">Booking Summary</h3>
+                        <div class="bg-slate-50 dark:bg-slate-800/50 rounded-3xl p-6 border border-slate-100 dark:border-slate-800">
+                            <div class="flex flex-row md:items-center gap-6">
+                                <div class="size-24 rounded-2xl bg-center bg-cover bg-no-repeat flex-shrink-0"
+                                     style="background-image: url(@Model.Data.Images[0]);"></div>
+                                <div class="flex-1 space-y-2">
+                                    <h4 class="text-xl font-black text-slate-900 dark:text-white">Court Name</h4>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
+                                        <div class="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+                                            <span class="material-symbols-outlined text-sm">calendar_today</span>
+                                            <span class="text-sm font-bold">Day</span>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+                                            <span class="material-symbols-outlined text-sm">schedule</span>
+                                            <span class="text-sm font-bold">Time</span>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+                                            <span class="material-symbols-outlined text-sm">sports_tennis</span>
+                                            <span class="text-sm font-bold">Type Sport</span>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-primary">
+                                            <span class="material-symbols-outlined text-sm">payments</span>
+                                            <span class="text-sm font-black">Price</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <section class="space-y-4">
+                            <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest">Player Information</h3>
+                            <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
+                                <div class="size-12 rounded-full bg-center bg-cover overflow-hidden border-2 border-primary">
+                                    Image Player
+                                </div>
+                                <div>
+                                    <h5 class="font-black text-slate-900 dark:text-white">Name</h5>
+                                    <p class="text-xs text-slate-500 font-bold">Email</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="space-y-4">
+                            <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest">Quick Policy</h3>
+                            <div class="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-900/30 rounded-2xl">
+                                <div class="flex gap-3">
+                                    <span class="material-symbols-outlined text-amber-500 text-sm mt-0.5">info</span>
+                                    <p class="text-xs text-amber-800 dark:text-amber-200 font-medium leading-relaxed">
+                                        Free cancellation up to 24 hours before the start time. Full refund will be issued to your original payment method.
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <section class="space-y-4">
+                        <label class="text-xs font-black text-slate-400 uppercase tracking-widest block">Special Requests (Optional)</label>
+                        <textarea class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-2xl p-4 text-sm font-medium focus:ring-primary focus:border-primary placeholder:text-slate-400"
+                                  placeholder="e.g., Need to rent 2 extra rackets, prefer a court near the entrance..." rows="3"></textarea>
+                    </section>
+                </div>
+
+                <div class="p-5 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 shrink-0">
+                    <div class="flex flex-col sm:flex-row items-center gap-4">
+                        <button id="btnCloseForm" type="button" class="w-full sm:w-auto px-8 py-4 text-sm font-black text-slate-500 hover:text-slate-700 transition-colors cursor-pointer">
+                            Cancel Request
+                        </button>
+                        <button type="submit" class="w-full flex-1 bg-primary text-white font-black py-3 rounded-2xl flex items-center justify-center gap-3 hover:brightness-110 active:scale-[0.98] transition-all shadow-xl shadow-primary/20 cursor-pointer">
+                            <span>Confirm & Go to Payment</span>
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </button>
+                    </div>
+
+                    <div class="mt-6 flex items-center justify-center gap-4">
+                        <div class="flex items-center gap-1.5 grayscale opacity-50">
+                            <span class="material-symbols-outlined text-lg">shield</span>
+                            <span class="text-[10px] font-black uppercase tracking-widest">Secure Checkout</span>
+                        </div>
+                        <div class="h-1 w-1 bg-slate-300 rounded-full"></div>
+                        <div class="flex items-center gap-1.5 grayscale opacity-50">
+                            <span class="material-symbols-outlined text-lg">lock</span>
+                            <span class="text-[10px] font-black uppercase tracking-widest">SSL Encrypted</span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
-            document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("DOMContentLoaded", () => {
             const slots = document.querySelectorAll(".slot-item");
-
             slots.forEach(slot => {
                 if (slot.dataset.status === "Booked") return;
+                slot.addEventListener("click", () => {
+                slots.forEach(s => {
+                    if (s.dataset.status !== "Booked") {
+                        s.classList.remove("slot-selected");
+                        s.querySelector(".status-label").innerText = "Available";
+                    }
+                });
 
-                    slot.addEventListener("click", () => {
-                        slots.forEach(s => {
-                            if (s.dataset.status !== "Booked") {
-                                s.classList.remove("slot-selected");
-                                s.querySelector(".status-label").innerText = "Available";
-                            }
-                        });
-                        slot.classList.add("slot-selected");
-                        slot.querySelector(".status-label").innerText = "Selected";
-                    });
+                slot.classList.add("slot-selected");
+                slot.querySelector(".status-label").innerText = "Selected";
                 });
             });
 
-    </script>
+            const overlay = document.getElementById("overlay");
+            const modal = document.getElementById("modal");
+            const btnOpenModal = document.getElementById("btnOpenModal");
 
+            const btnCloseModal = document.getElementById("btnCloseModal");
+            const btnCloseForm = document.getElementById("btnCloseForm");
+
+            function openModal() {
+                // bật overlay + modal
+                overlay.classList.remove("opacity-0", "pointer-events-none");
+                modal.classList.remove("opacity-0", "pointer-events-none");
+
+                document.body.classList.add("overflow-hidden");
+            }
+
+            function closeModal() {
+                // fade overlay + wrapper
+                overlay.classList.add("opacity-0", "pointer-events-none");
+                modal.classList.add("opacity-0", "pointer-events-none");
+
+                document.body.classList.remove("overflow-hidden");
+            }
+
+            btnOpenModal.addEventListener("click", openModal);
+
+            btnCloseModal.addEventListener("click", closeModal);
+            btnCloseForm.addEventListener("click", closeModal);
+
+            // click ra ngoài để đóng
+
+            modal.addEventListener("click", (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // ESC để đóng
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape" && !modal.classList.contains("pointer-events-none")) {
+                closeModal();
+                }
+            });
+        });
+    </script>
 }
