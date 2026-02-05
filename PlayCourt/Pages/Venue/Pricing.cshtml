@@ -1,0 +1,192 @@
+@page "/venue/pricing"
+@model PlayCourt.WebApp.Pages.Venue.PricingModel
+@{
+    Layout = "_VenueOnboardingLayout";
+    ViewData["Title"] = "Configure Pricing Rules";
+}
+
+<div class="mb-10">
+    <h1 class="text-4xl font-black text-slate-900 dark:text-white tracking-tight mb-2">Configure Pricing Rules</h1>
+    <p class="text-lg text-slate-500 dark:text-slate-400 font-medium">Set hourly rates and manage peak hours for @Model.Data.CourtName.</p>
+</div>
+
+<!-- Progress Steps -->
+<div class="flex items-center gap-4 mb-12">
+    <div class="flex items-center gap-3">
+        <div class="size-10 rounded-full border-2 step-done flex items-center justify-center text-sm font-black transition-all">
+            <span class="material-symbols-outlined text-lg">check</span>
+        </div>
+        <span class="text-sm font-black text-slate-900 dark:text-white">Venue Identity</span>
+    </div>
+    <div class="h-px flex-1 bg-primary"></div>
+    <div class="flex items-center gap-3">
+        <div class="size-10 rounded-full border-2 step-done flex items-center justify-center text-sm font-black transition-all">
+            <span class="material-symbols-outlined text-lg">check</span>
+        </div>
+        <span class="text-sm font-black text-slate-900 dark:text-white">Facility Setup</span>
+    </div>
+    <div class="h-px flex-1 bg-primary"></div>
+    <div class="flex items-center gap-3">
+        <div class="size-10 rounded-full border-2 step-active flex items-center justify-center text-sm font-black transition-all">3</div>
+        <span class="text-sm font-black text-slate-900 dark:text-white">Pricing Configuration</span>
+    </div>
+</div>
+
+<!-- Form -->
+<div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+    <div class="p-10 space-y-10">
+        <!-- Standard Pricing -->
+        <section class="space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">payments</span>
+                    <h3 class="text-xl font-black text-slate-900 dark:text-white">Standard Pricing</h3>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="flex flex-col gap-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400">Base Hourly Rate ($)</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary">attach_money</span>
+                        <input id="baseRate" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-2xl py-4 pl-12 pr-4 font-bold text-slate-800 dark:text-slate-200 focus:ring-primary focus:border-primary transition-all" placeholder="0.00" step="0.01" type="number" value="25.00"/>
+                    </div>
+                    <p class="text-xs font-bold text-slate-400">Standard rate applied to non-peak hours during weekdays.</p>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400">Weekend Rates</label>
+                    <div class="flex items-center gap-4 py-4 px-6 bg-slate-50 dark:bg-slate-800/30 rounded-2xl border border-slate-200 dark:border-slate-700">
+                        <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                            <input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer focus:outline-none" id="weekendToggle" name="toggle" type="checkbox"/>
+                            <label class="toggle-label block overflow-hidden h-6 rounded-full bg-slate-300 cursor-pointer transition-colors" for="weekendToggle"></label>
+                        </div>
+                        <span class="text-sm font-bold text-slate-700 dark:text-slate-200">Enable Special Weekend Pricing</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Peak Hour Pricing -->
+        <section class="space-y-6 pt-6">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">bolt</span>
+                    <h3 class="text-xl font-black text-slate-900 dark:text-white">Peak Hour Pricing</h3>
+                </div>
+                <button type="button" id="addTimeSlotBtn" class="flex items-center gap-2 text-primary text-sm font-black hover:opacity-80 transition-opacity">
+                    <span class="material-symbols-outlined text-lg">add_circle</span>
+                    ADD TIME SLOT
+                </button>
+            </div>
+            <div class="space-y-4" id="peakHourContainer">
+                @foreach (var slot in Model.Data.PeakHourSlots)
+                {
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 bg-slate-50 dark:bg-slate-800/30 rounded-3xl border border-slate-200 dark:border-slate-700 relative group peak-slot" data-slot-id="@slot.Id">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Start Time</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm">schedule</span>
+                                <input class="w-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 rounded-xl py-3 pl-10 pr-4 font-bold text-sm text-slate-800 dark:text-slate-200 focus:ring-primary focus:border-primary" type="time" value="@slot.StartTime.ToString("HH:mm")"/>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">End Time</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm">schedule</span>
+                                <input class="w-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 rounded-xl py-3 pl-10 pr-4 font-bold text-sm text-slate-800 dark:text-slate-200 focus:ring-primary focus:border-primary" type="time" value="@slot.EndTime.ToString("HH:mm")"/>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Peak Rate ($/hr)</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary text-sm">trending_up</span>
+                                <input class="w-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 rounded-xl py-3 pl-10 pr-4 font-bold text-sm text-slate-800 dark:text-slate-200 focus:ring-primary focus:border-primary" placeholder="0.00" type="number" value="@slot.PeakRate"/>
+                            </div>
+                        </div>
+                        <button type="button" class="remove-slot-btn absolute -right-3 -top-3 size-8 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                            <span class="material-symbols-outlined text-lg">close</span>
+                        </button>
+                    </div>
+                }
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer Actions -->
+    <div class="px-10 py-8 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
+        <button type="button" class="text-sm font-black text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">Back to Setup</button>
+        <div class="flex gap-4">
+            <button type="button" class="px-8 py-4 rounded-2xl text-sm font-black text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 transition-all">Save Draft</button>
+            <button type="button" id="savePricingBtn" class="px-10 py-4 rounded-2xl text-sm font-black text-white bg-primary hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-primary/20 flex items-center gap-2">
+                <span>Save Pricing &amp; Continue</span>
+                <span class="material-symbols-outlined text-base">arrow_forward_ios</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+@section ProgressTracker {
+    <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+        <h3 class="text-lg font-black text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">analytics</span>
+            Registration Progress
+        </h3>
+        <div class="space-y-6">
+            <div>
+                <div class="flex justify-between items-end mb-2">
+                    <span class="text-xs font-black uppercase tracking-widest text-slate-400">Overall Completion</span>
+                    <span class="text-sm font-black text-primary">@Model.Data.Progress.CompletionPercentage%</span>
+                </div>
+                <div class="w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-primary rounded-full" style="width: @(Model.Data.Progress.CompletionPercentage)%"></div>
+                </div>
+            </div>
+            <ul class="space-y-4">
+                @foreach (var step in Model.Data.Progress.Steps)
+                {
+                    <li class="flex items-center gap-3 @(step.Status == "pending" ? "opacity-50" : "")">
+                        <span class="material-symbols-outlined @(step.Status == "done" ? "text-primary" : step.Status == "active" ? "text-primary" : "text-slate-300") text-xl">@step.Icon</span>
+                        <span class="text-sm @(step.Status == "active" ? "font-black text-slate-900 dark:text-white" : "font-bold text-slate-700 dark:text-slate-300")">@step.Name</span>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+}
+
+@section Tips {
+    <div class="bg-primary/5 rounded-3xl p-8 border border-primary/20">
+        <h3 class="text-lg font-black text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">tips_and_updates</span>
+            Pricing Strategy
+        </h3>
+        <div class="space-y-6">
+            <div class="flex gap-4">
+                <div class="size-8 rounded-lg bg-primary/10 text-primary flex-shrink-0 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-sm">trending_up</span>
+                </div>
+                <p class="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    <strong class="text-slate-900 dark:text-white block mb-1">Maximize Revenue</strong>
+                    Set 20% higher rates for evenings (5 PM - 10 PM) when demand is highest.
+                </p>
+            </div>
+            <div class="flex gap-4">
+                <div class="size-8 rounded-lg bg-primary/10 text-primary flex-shrink-0 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-sm">calendar_month</span>
+                </div>
+                <p class="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    <strong class="text-slate-900 dark:text-white block mb-1">Weekend Surge</strong>
+                    Weekend mornings are often fully booked; consider special weekend rates.
+                </p>
+            </div>
+            <div class="flex gap-4">
+                <div class="size-8 rounded-lg bg-primary/10 text-primary flex-shrink-0 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-sm">payments</span>
+                </div>
+                <p class="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    <strong class="text-slate-900 dark:text-white block mb-1">Instant Payments</strong>
+                    All rates configured here are processed instantly via PlayCourt Pay.
+                </p>
+            </div>
+        </div>
+    </div>
+}
