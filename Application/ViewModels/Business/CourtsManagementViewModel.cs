@@ -1,4 +1,4 @@
-namespace PlayCourt.Application.ViewModels.Business
+﻿namespace PlayCourt.Application.ViewModels.Business
 {
     public class CourtsManagementViewModel
     {
