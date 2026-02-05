@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const percentage = Math.round((completedSteps / totalSteps) * 100);
 
-        // Update progress bar
+        // Update progress bar in sidebar
         const progressBar = document.querySelector('.bg-primary.rounded-full');
         const progressText = document.querySelector('.text-primary.text-sm.font-black');
         
@@ -278,7 +278,118 @@ document.addEventListener('DOMContentLoaded', () => {
             progressText.textContent = `${percentage}%`;
         }
 
-        // Update step indicators
+        // Update main progress steps (top of page)
+        const mainSteps = document.querySelectorAll('.mb-12 > .flex.items-center.gap-3');
+        if (mainSteps.length >= 3) {
+            // Step 1: Venue Identity
+            const step1Circle = mainSteps[0].querySelector('.size-10');
+            const step1Text = mainSteps[0].querySelector('span');
+            const line1 = document.querySelectorAll('.h-px')[0];
+            
+            if (venueName && sportTypes > 0 && address) {
+                // Completed
+                if (step1Circle) {
+                    step1Circle.className = 'size-10 rounded-full border-2 step-done flex items-center justify-center text-sm font-black transition-all';
+                    step1Circle.innerHTML = '<span class="material-symbols-outlined text-lg">check</span>';
+                }
+                if (step1Text) {
+                    step1Text.className = 'text-sm font-black text-slate-900 dark:text-white';
+                }
+                if (line1) {
+                    line1.className = 'h-px flex-1 bg-primary';
+                }
+            } else {
+                // Active
+                if (step1Circle) {
+                    step1Circle.className = 'size-10 rounded-full border-2 step-active flex items-center justify-center text-sm font-black transition-all';
+                    step1Circle.textContent = '1';
+                }
+                if (step1Text) {
+                    step1Text.className = 'text-sm font-black text-slate-900 dark:text-white';
+                }
+                if (line1) {
+                    line1.className = 'h-px flex-1 bg-slate-200 dark:bg-slate-800';
+                }
+            }
+
+            // Step 2: Business Verification
+            const step2Circle = mainSteps[1].querySelector('.size-10');
+            const step2Text = mainSteps[1].querySelector('span');
+            const line2 = document.querySelectorAll('.h-px')[1];
+            
+            if (hasBusinessLicense && hasLandCertificate) {
+                // Completed
+                if (step2Circle) {
+                    step2Circle.className = 'size-10 rounded-full border-2 step-done flex items-center justify-center text-sm font-black transition-all';
+                    step2Circle.innerHTML = '<span class="material-symbols-outlined text-lg">check</span>';
+                }
+                if (step2Text) {
+                    step2Text.className = 'text-sm font-black text-slate-900 dark:text-white';
+                }
+                if (line2) {
+                    line2.className = 'h-px flex-1 bg-primary';
+                }
+            } else if (venueName && sportTypes > 0 && address) {
+                // Active (previous step done)
+                if (step2Circle) {
+                    step2Circle.className = 'size-10 rounded-full border-2 step-active flex items-center justify-center text-sm font-black transition-all';
+                    step2Circle.textContent = '2';
+                }
+                if (step2Text) {
+                    step2Text.className = 'text-sm font-black text-slate-900 dark:text-white';
+                }
+                if (line2) {
+                    line2.className = 'h-px flex-1 bg-slate-200 dark:bg-slate-800';
+                }
+            } else {
+                // Pending
+                if (step2Circle) {
+                    step2Circle.className = 'size-10 rounded-full border-2 step-pending flex items-center justify-center text-sm font-black transition-all';
+                    step2Circle.textContent = '2';
+                }
+                if (step2Text) {
+                    step2Text.className = 'text-sm font-bold text-slate-400';
+                }
+                if (line2) {
+                    line2.className = 'h-px flex-1 bg-slate-200 dark:bg-slate-800';
+                }
+            }
+
+            // Step 3: Facility Setup
+            const step3Circle = mainSteps[2].querySelector('.size-10');
+            const step3Text = mainSteps[2].querySelector('span');
+            
+            if (amenities > 0 && photos > 0) {
+                // Completed
+                if (step3Circle) {
+                    step3Circle.className = 'size-10 rounded-full border-2 step-done flex items-center justify-center text-sm font-black transition-all';
+                    step3Circle.innerHTML = '<span class="material-symbols-outlined text-lg">check</span>';
+                }
+                if (step3Text) {
+                    step3Text.className = 'text-sm font-black text-slate-900 dark:text-white';
+                }
+            } else if (hasBusinessLicense && hasLandCertificate) {
+                // Active (previous step done)
+                if (step3Circle) {
+                    step3Circle.className = 'size-10 rounded-full border-2 step-active flex items-center justify-center text-sm font-black transition-all';
+                    step3Circle.textContent = '3';
+                }
+                if (step3Text) {
+                    step3Text.className = 'text-sm font-black text-slate-900 dark:text-white';
+                }
+            } else {
+                // Pending
+                if (step3Circle) {
+                    step3Circle.className = 'size-10 rounded-full border-2 step-pending flex items-center justify-center text-sm font-black transition-all';
+                    step3Circle.textContent = '3';
+                }
+                if (step3Text) {
+                    step3Text.className = 'text-sm font-bold text-slate-400';
+                }
+            }
+        }
+
+        // Update sidebar step indicators
         const stepItems = document.querySelectorAll('aside ul li');
         if (stepItems.length >= 4) {
             // Account Created (always done)
