@@ -1,0 +1,255 @@
+@page "/venue/register"
+@model PlayCourt.WebApp.Pages.Venue.RegisterModel
+@{
+    Layout = "_VenueOnboardingLayout";
+    ViewData["Title"] = "Register Your Venue";
+}
+
+<div class="mb-10">
+    <h1 class="text-4xl font-black text-slate-900 dark:text-white tracking-tight mb-2">Register Your Venue</h1>
+    <p class="text-lg text-slate-500 dark:text-slate-400 font-medium">Join the largest racket sports network and start managing your courts with ease.</p>
+</div>
+
+<!-- Progress Steps -->
+<div class="flex items-center gap-4 mb-12">
+    <div class="flex items-center gap-3">
+        <div class="size-10 rounded-full border-2 step-active flex items-center justify-center text-sm font-black transition-all">1</div>
+        <span class="text-sm font-black text-slate-900 dark:text-white">Venue Identity</span>
+    </div>
+    <div class="h-px flex-1 bg-slate-200 dark:bg-slate-800"></div>
+    <div class="flex items-center gap-3">
+        <div class="size-10 rounded-full border-2 step-pending flex items-center justify-center text-sm font-black transition-all">2</div>
+        <span class="text-sm font-bold text-slate-400">Business Verification</span>
+    </div>
+    <div class="h-px flex-1 bg-slate-200 dark:bg-slate-800"></div>
+    <div class="flex items-center gap-3">
+        <div class="size-10 rounded-full border-2 step-pending flex items-center justify-center text-sm font-black transition-all">3</div>
+        <span class="text-sm font-bold text-slate-400">Facility Setup</span>
+    </div>
+</div>
+
+<!-- Form -->
+<div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+    <div class="p-10 space-y-10">
+        <!-- Venue Identity -->
+        <section class="space-y-6">
+            <div class="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-4">
+                <span class="material-symbols-outlined text-primary">storefront</span>
+                <h3 class="text-xl font-black text-slate-900 dark:text-white">Venue Identity</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="flex flex-col gap-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400">Venue Name</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary">badge</span>
+                        <input class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-2xl py-4 pl-12 pr-4 font-bold text-slate-800 dark:text-slate-200 focus:ring-primary focus:border-primary transition-all" placeholder="e.g. Smash City Arena" type="text"/>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400">Sport Types</label>
+                    <div class="flex flex-wrap gap-3">
+                        @foreach (var sport in Model.Data.AvailableSportTypes)
+                        {
+                            <label class="relative cursor-pointer">
+                                <input type="checkbox" name="SportTypes" value="@sport" class="peer sr-only"/>
+                                <div class="px-4 py-2.5 rounded-full border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30 text-slate-600 dark:text-slate-400 font-bold text-sm transition-all peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-primary">
+                                    @sport
+                                </div>
+                            </label>
+                        }
+                    </div>
+                    <p class="text-[10px] font-bold text-slate-400 mt-1">Select all sports your venue offers</p>
+                </div>
+                <div class="flex flex-col gap-2 md:col-span-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400">Full Address</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary">location_on</span>
+                        <input class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-2xl py-4 pl-12 pr-4 font-bold text-slate-800 dark:text-slate-200 focus:ring-primary focus:border-primary transition-all" placeholder="Enter physical location" type="text"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Business Verification -->
+        <section class="space-y-6 pt-6">
+            <div class="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-4">
+                <span class="material-symbols-outlined text-primary">description</span>
+                <h3 class="text-xl font-black text-slate-900 dark:text-white">Business Verification</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="flex flex-col gap-3">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400">Business License</label>
+                    <input type="file" id="businessLicenseInput" accept=".pdf,.jpg,.jpeg,.png" class="hidden"/>
+                    <div id="businessLicenseUpload" class="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-3xl p-8 flex flex-col items-center justify-center text-center gap-3 bg-slate-50 dark:bg-slate-800/30 hover:border-primary/50 transition-colors cursor-pointer">
+                        <div class="size-12 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                            <span class="material-symbols-outlined">upload_file</span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-black text-slate-900 dark:text-white">Click to upload license</p>
+                            <p class="text-xs font-bold text-slate-400">PDF, JPG up to 10MB</p>
+                        </div>
+                    </div>
+                    <div id="businessLicensePreview" class="hidden mt-2">
+                        <img id="businessLicensePreviewImg" class="hidden w-full h-48 object-cover rounded-2xl mb-3" alt="License Preview"/>
+                        <div class="p-4 bg-primary/5 rounded-2xl border border-primary/20">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-symbols-outlined text-primary">description</span>
+                                    <div>
+                                        <p class="text-sm font-bold text-slate-900 dark:text-white" id="businessLicenseFileName"></p>
+                                        <p class="text-xs text-slate-500" id="businessLicenseFileSize"></p>
+                                    </div>
+                                </div>
+                                <button type="button" id="businessLicenseRemove" class="text-red-500 hover:text-red-700">
+                                    <span class="material-symbols-outlined">delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-3">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400">Land Use Certificate</label>
+                    <input type="file" id="landCertificateInput" accept=".pdf,.jpg,.jpeg,.png" class="hidden"/>
+                    <div id="landCertificateUpload" class="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-3xl p-8 flex flex-col items-center justify-center text-center gap-3 bg-slate-50 dark:bg-slate-800/30 hover:border-primary/50 transition-colors cursor-pointer">
+                        <div class="size-12 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                            <span class="material-symbols-outlined">map</span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-black text-slate-900 dark:text-white">Upload land documents</p>
+                            <p class="text-xs font-bold text-slate-400">PDF, JPG up to 10MB</p>
+                        </div>
+                    </div>
+                    <div id="landCertificatePreview" class="hidden mt-2">
+                        <img id="landCertificatePreviewImg" class="hidden w-full h-48 object-cover rounded-2xl mb-3" alt="Land Certificate Preview"/>
+                        <div class="p-4 bg-primary/5 rounded-2xl border border-primary/20">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-symbols-outlined text-primary">description</span>
+                                    <div>
+                                        <p class="text-sm font-bold text-slate-900 dark:text-white" id="landCertificateFileName"></p>
+                                        <p class="text-xs text-slate-500" id="landCertificateFileSize"></p>
+                                    </div>
+                                </div>
+                                <button type="button" id="landCertificateRemove" class="text-red-500 hover:text-red-700">
+                                    <span class="material-symbols-outlined">delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Facility Setup -->
+        <section class="space-y-6 pt-6">
+            <div class="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-4">
+                <span class="material-symbols-outlined text-primary">grid_view</span>
+                <h3 class="text-xl font-black text-slate-900 dark:text-white">Facility Setup</h3>
+            </div>
+            <div class="flex flex-col gap-8">
+                <div class="flex flex-col gap-4">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400">Amenities Offered</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        @foreach (var amenity in Model.Data.AvailableAmenities)
+                        {
+                            <label class="flex items-center gap-3 p-4 bg-slate-50 dark:bg-slate-800/30 rounded-2xl cursor-pointer border-2 border-transparent has-[:checked]:border-primary has-[:checked]:bg-primary/5 hover:border-primary/20 transition-all">
+                                <input class="size-5 rounded border-slate-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary" type="checkbox"/>
+                                <span class="text-sm font-bold text-slate-700 dark:text-slate-200">@amenity.Name</span>
+                            </label>
+                        }
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400">Photo Gallery</label>
+                    <input type="file" id="photoGalleryInput" accept="image/*" multiple class="hidden"/>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4" id="photoGalleryContainer">
+                        <div id="photoUploadTrigger" class="aspect-square rounded-2xl bg-slate-100 dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center gap-2 hover:border-primary transition-colors cursor-pointer">
+                            <span class="material-symbols-outlined text-slate-400">add_a_photo</span>
+                            <span class="text-[10px] font-black uppercase text-slate-400">Add Photo</span>
+                        </div>
+                    </div>
+                    <p class="text-[10px] font-bold text-slate-400">Upload up to 10 photos. First photo will be the cover image.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer Actions -->
+    <div class="px-10 py-8 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
+        <button type="button" class="text-sm font-black text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">Discard Application</button>
+        <div class="flex gap-4">
+            <button type="button" class="px-8 py-4 rounded-2xl text-sm font-black text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 transition-all">Save Progress</button>
+            <button type="button" disabled class="px-10 py-4 rounded-2xl text-sm font-black text-white bg-primary hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-primary/20 flex items-center gap-2 opacity-50 cursor-not-allowed" title="Complete required fields to enable">
+                <span>Submit for Approval</span>
+                <span class="material-symbols-outlined text-base">verified_user</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+@section ProgressTracker {
+    <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+        <h3 class="text-lg font-black text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">analytics</span>
+            Registration Progress
+        </h3>
+        <div class="space-y-6">
+            <div>
+                <div class="flex justify-between items-end mb-2">
+                    <span class="text-xs font-black uppercase tracking-widest text-slate-400">Overall Completion</span>
+                    <span class="text-sm font-black text-primary">@Model.Data.Progress.CompletionPercentage%</span>
+                </div>
+                <div class="w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-primary rounded-full" style="width: @(Model.Data.Progress.CompletionPercentage)%"></div>
+                </div>
+            </div>
+            <ul class="space-y-4">
+                @foreach (var step in Model.Data.Progress.Steps)
+                {
+                    <li class="flex items-center gap-3 @(step.Status == "pending" ? "opacity-50" : "")">
+                        <span class="material-symbols-outlined @(step.Status == "done" ? "text-primary" : step.Status == "active" ? "text-primary" : "text-slate-300") text-xl">@step.Icon</span>
+                        <span class="text-sm font-bold @(step.Status == "active" ? "text-slate-900 dark:text-white" : "text-slate-700 dark:text-slate-300")">@step.Name</span>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+}
+
+@section Tips {
+    <div class="bg-primary/5 rounded-3xl p-8 border border-primary/20">
+        <h3 class="text-lg font-black text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">tips_and_updates</span>
+            Verification Tips
+        </h3>
+        <div class="space-y-6">
+            <div class="flex gap-4">
+                <div class="size-8 rounded-lg bg-primary/10 text-primary flex-shrink-0 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-sm">photo_camera</span>
+                </div>
+                <p class="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    <strong class="text-slate-900 dark:text-white block mb-1">High Quality Photos</strong>
+                    Venues with 5+ bright, clear photos receive 40% more bookings.
+                </p>
+            </div>
+            <div class="flex gap-4">
+                <div class="size-8 rounded-lg bg-primary/10 text-primary flex-shrink-0 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-sm">gavel</span>
+                </div>
+                <p class="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    <strong class="text-slate-900 dark:text-white block mb-1">Legal Accuracy</strong>
+                    Ensure your business name matches your legal registration documents.
+                </p>
+            </div>
+            <div class="flex gap-4">
+                <div class="size-8 rounded-lg bg-primary/10 text-primary flex-shrink-0 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-sm">speed</span>
+                </div>
+                <p class="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    <strong class="text-slate-900 dark:text-white block mb-1">Fast Approval</strong>
+                    Complete all fields now for 24-hour express verification.
+                </p>
+            </div>
+        </div>
+    </div>
+}
