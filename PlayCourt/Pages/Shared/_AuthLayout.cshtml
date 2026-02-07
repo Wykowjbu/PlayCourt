@@ -1,0 +1,56 @@
+﻿@{
+    Layout = "_Layout";
+	var authTitle = ViewData["AuthTitle"] as string ?? "Welcome Back!";
+	var authDescription = ViewData["AuthDescription"] as string ?? "Log in to your account to book premium tennis courts and elevate your game with PlayCourt.";
+}
+
+<div class="flex min-h-screen flex-col lg:flex-row">
+
+    <!-- LEFT: AUTH HERO -->
+    <div class="relative hidden lg:flex lg:w-5/12 xl:w-1/2 bg-[#0d1b0f] overflow-hidden">
+        <div class="absolute inset-0 bg-cover bg-center"
+             style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCISZU1HaCn4_pI4C1070rNJj1QTCHM49Hk6ikPE6eJS269U_3zvyejf6LlSrYTnVLkVDhcbHttKDnO3FQhpNoJepjRZjW2a9Su1aL8OSCvK8fMSUs2TiywmMZV9cJkPEPqwdbchohJtoEqxXcjZYlHlQAKMq-DJscmmRpjqiBxP8OIlf5yAHQ84rDwXoszbx2siPEt3Ltli23uc6taq8jVAOdyzgMUMJhxkKZ6_uq250dqR6dJr7gPv2JSyjfCxX4GvIUZj2D6kmTD');">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 flex flex-col justify-between h-full p-16 text-white">
+            <!-- Brand -->
+            <div class="flex items-center gap-3">
+                <div class="flex items-center justify-center size-10 bg-primary rounded-xl text-black">
+                    <span class="material-symbols-outlined font-bold">sports_tennis</span>
+                </div>
+                <span class="text-2xl font-bold tracking-tight">PlayCourt</span>
+            </div>
+
+            <!-- Hero Text -->
+            <div class="max-w-md">
+                <h2 class="text-6xl font-extrabold leading-tight mb-6">
+                    @Html.Raw(authTitle)
+                </h2>
+                <p class="text-xl opacity-90 leading-relaxed font-light">
+                    @authDescription
+                </p>
+            </div>
+
+            <!-- Stats -->
+            <div class="flex items-center gap-6 text-sm font-medium">
+                <div class="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                    <span class="material-symbols-outlined text-sm text-primary">location_on</span>
+                    <span>Da Nang City</span>
+                </div>
+                <div class="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                    <span class="material-symbols-outlined text-sm text-primary">check_circle</span>
+                    <span>200+ Premium Courts</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT: AUTH CONTENT -->
+    
+    @RenderBody()
+    
+
+</div>
+
+@await RenderSectionAsync("Scripts", required: false)

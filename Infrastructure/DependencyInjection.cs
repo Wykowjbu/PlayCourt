@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces.Repositories;
+using Infrastructure.Persistence;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,8 +17,17 @@ namespace Infrastructure
 
 
             //dbContexxt
-            //services.AddDbContext<..Contexxt..>(OptionsBuilderExtensions => OptionsBuilderExtensions.UseNpgsql(
-            //    configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<PlayCourtDbContext>(options =>
+            {
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), npgsqlOptions =>
+                {
+                    npgsqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(10),
+                        errorCodesToAdd: null
+                    );
+                });
+            });
             
             return services;
 
