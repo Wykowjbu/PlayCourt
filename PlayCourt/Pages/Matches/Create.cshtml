@@ -1,7 +1,7 @@
 @page
 @model PlayCourt.Pages.Matches.CreateModel
 @{
-    Layout = "_CreateMatchLayout";
+    Layout = "_MainLayout";
     ViewData["Title"] = "Create Match Request";
 }
 
@@ -49,7 +49,7 @@
                     <label class="text-xs font-black uppercase tracking-widest text-slate-400">Venue</label>
                     <div class="relative">
                         <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary">location_on</span>
-                        <input asp-for="Input.Venue" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-2xl py-4 pl-12 pr-4 font-bold text-slate-800 dark:text-slate-200 focus:ring-primary focus:border-primary transition-all" placeholder="Search courts in Da Nang" type="text"/>
+                        <input asp-for="Input.Venue" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-2xl py-4 pl-12 pr-4 font-bold text-slate-800 dark:text-slate-200 focus:ring-primary focus:border-primary transition-all" placeholder="Search courts in Da Nang" type="text" />
                     </div>
                     <span asp-validation-for="Input.Venue" class="text-xs text-red-500 font-medium"></span>
                 </div>
@@ -58,7 +58,7 @@
                     <label class="text-xs font-black uppercase tracking-widest text-slate-400">Date & Time</label>
                     <div class="relative">
                         <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary">calendar_today</span>
-                        <input asp-for="Input.DateTime" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-2xl py-4 pl-12 pr-4 font-bold text-slate-800 dark:text-slate-200 focus:ring-primary focus:border-primary transition-all" placeholder="Choose when to play" type="text"/>
+                        <input asp-for="Input.DateTime" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-2xl py-4 pl-12 pr-4 font-bold text-slate-800 dark:text-slate-200 focus:ring-primary focus:border-primary transition-all" placeholder="Choose when to play" type="text" />
                     </div>
                     <span asp-validation-for="Input.DateTime" class="text-xs text-red-500 font-medium"></span>
                 </div>
@@ -71,7 +71,7 @@
                             <label class="text-xs font-black uppercase tracking-widest text-slate-400">Minimum Skill Level</label>
                             <span class="text-sm font-black text-primary" id="skillLevelText">@Model.Input.GetSkillLevelText()</span>
                         </div>
-                        <input asp-for="Input.MinimumSkillLevel" class="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="1" max="5" id="skillRange"/>
+                        <input asp-for="Input.MinimumSkillLevel" class="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="1" max="5" id="skillRange" />
                         <div class="flex justify-between text-[10px] font-bold text-slate-400 px-1">
                             <span>BEGINNER</span>
                             <span>AMATEUR</span>
@@ -96,7 +96,7 @@
                                 <span class="material-symbols-outlined">remove</span>
                             </button>
                             <span id="playersCount" class="text-xl font-black text-slate-900 dark:text-white w-4 text-center">@Model.Input.PlayersNeeded</span>
-                            <input asp-for="Input.PlayersNeeded" type="hidden" id="playersInput"/>
+                            <input asp-for="Input.PlayersNeeded" type="hidden" id="playersInput" />
                             <button type="button" onclick="incrementPlayers()" class="size-10 rounded-full bg-primary text-white flex items-center justify-center hover:brightness-110 transition-all shadow-md">
                                 <span class="material-symbols-outlined">add</span>
                             </button>
@@ -109,7 +109,7 @@
                 <label class="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 block">Cost Sharing Mode</label>
                 <div class="grid grid-cols-2 gap-4">
                     <label class="relative cursor-pointer">
-                        <input asp-for="Input.CostSharingMode" value="Split Equally" class="peer sr-only" type="radio" checked/>
+                        <input asp-for="Input.CostSharingMode" value="Split Equally" class="peer sr-only" type="radio" checked />
                         <div class="p-4 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 peer-checked:border-primary peer-checked:bg-primary/5 transition-all">
                             <div class="flex items-center gap-3">
                                 <span class="material-symbols-outlined text-primary">payments</span>
@@ -118,7 +118,7 @@
                         </div>
                     </label>
                     <label class="relative cursor-pointer">
-                        <input asp-for="Input.CostSharingMode" value="Winner Stays" class="peer sr-only" type="radio"/>
+                        <input asp-for="Input.CostSharingMode" value="Winner Stays" class="peer sr-only" type="radio" />
                         <div class="p-4 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 peer-checked:border-primary peer-checked:bg-primary/5 transition-all">
                             <div class="flex items-center gap-3">
                                 <span class="material-symbols-outlined text-primary">military_tech</span>
