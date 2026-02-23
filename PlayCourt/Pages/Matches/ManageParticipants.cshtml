@@ -1,0 +1,160 @@
+@page
+@model PlayCourt.Pages.Matches.ManageParticipantsModel
+@{
+    Layout = "_MainLayout";
+    ViewData["Title"] = "Manage Participants";
+}
+
+<main class="max-w-[1000px] mx-auto px-6 py-12">
+    <div class="flex flex-col gap-2 mb-10">
+        <div class="flex items-center gap-2 text-slate-400 text-sm font-bold mb-2">
+            <a class="hover:text-primary transition-colors" href="#">My Hosted Matches</a>
+            <span class="material-symbols-outlined text-xs">chevron_right</span>
+            <span class="text-slate-900 dark:text-white">Manage Participants</span>
+        </div>
+        <h1 class="text-4xl font-black tracking-tight text-slate-900 dark:text-white">Manage Participants</h1>
+    </div>
+
+    <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 mb-12 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row gap-6 items-center">
+        <div class="w-full md:w-48 h-32 rounded-2xl bg-center bg-cover flex-shrink-0" style='background-image: url("@Model.ViewModel.MatchInfo.ImageUrl");'></div>
+        <div class="flex-1 space-y-3">
+            <div class="flex items-center gap-2">
+                <span class="bg-primary/10 text-primary text-[10px] font-black px-2 py-1 rounded-full uppercase">@Model.ViewModel.MatchInfo.SportType</span>
+                <span class="text-slate-400 text-sm font-bold">•</span>
+                <span class="text-slate-500 dark:text-slate-400 text-sm font-bold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">calendar_today</span>
+                    @Model.ViewModel.MatchInfo.DateTime
+                </span>
+            </div>
+            <h2 class="text-2xl font-black text-slate-900 dark:text-white">@Model.ViewModel.MatchInfo.Title</h2>
+            <div class="flex items-center gap-4 text-slate-500 dark:text-slate-400 text-sm font-medium">
+                <span class="flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">groups</span> 
+                    @Model.ViewModel.MatchInfo.CurrentPlayers/@Model.ViewModel.MatchInfo.MaxPlayers Players
+                </span>
+                <span class="flex items-center gap-1 text-amber-500">
+                    <span class="material-symbols-outlined text-sm material-symbols-fill">bolt</span> 
+                    Level @Model.ViewModel.MatchInfo.MinimumLevel+
+                </span>
+            </div>
+        </div>
+        <div class="flex flex-col items-end gap-2">
+            <span class="text-xs font-black text-primary bg-primary/10 px-3 py-1 rounded-full uppercase">@Model.ViewModel.MatchInfo.Status</span>
+            <button class="text-slate-400 hover:text-primary transition-colors flex items-center gap-1 text-sm font-bold">
+                Edit Match <span class="material-symbols-outlined text-sm">edit</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div class="lg:col-span-2">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+                    Join Requests
+                    @if (Model.ViewModel.JoinRequests.Any())
+                    {
+                        <span class="bg-rose-500 text-white text-xs px-2 py-0.5 rounded-full">@Model.ViewModel.JoinRequests.Count</span>
+                    }
+                </h3>
+            </div>
+
+            @if (Model.ViewModel.JoinRequests.Any())
+            {
+                <div class="space-y-4">
+                    @foreach (var request in Model.ViewModel.JoinRequests)
+                    {
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex gap-4">
+                                <div class="size-16 rounded-2xl bg-center bg-cover flex-shrink-0" style='background-image: url("@request.AvatarUrl");'></div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <h4 class="font-black text-lg text-slate-900 dark:text-white leading-none">@request.PlayerName</h4>
+                                        <div class="bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 text-xs font-black px-2 py-1 rounded-lg">
+                                            LEVEL @request.PlayerLevel
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mb-4">"@request.Message"</p>
+                                    <form method="post" class="flex items-center gap-3">
+                                        <input type="hidden" name="requestId" value="@request.RequestId"/>
+                                        <button type="submit" asp-page-handler="Accept" class="flex-1 bg-primary text-white text-sm font-black py-2.5 rounded-xl hover:brightness-110 transition-all shadow-lg shadow-primary/20">
+                                            Accept
+                                        </button>
+                                        <button type="submit" asp-page-handler="Decline" class="flex-1 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 text-sm font-black py-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+                                            Decline
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-12 text-slate-400">
+                    <span class="material-symbols-outlined text-5xl mb-4 block opacity-30">pending</span>
+                    <p class="font-bold">No pending join requests</p>
+                </div>
+            }
+        </div>
+
+        <div class="lg:col-span-1">
+            <div class="bg-slate-100 dark:bg-slate-900/50 rounded-3xl p-8 border border-slate-200/50 dark:border-slate-800">
+                <h3 class="text-xl font-black text-slate-900 dark:text-white mb-8">Confirmed Squad</h3>
+                <div class="space-y-6">
+                    @foreach (var player in Model.ViewModel.ConfirmedPlayers)
+                    {
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="relative">
+                                    <div class="size-12 rounded-full @(player.IsHost ? "border-2 border-primary" : "border-2 border-transparent") bg-cover bg-center" style='background-image: url("@player.AvatarUrl");'></div>
+                                    @if (player.IsHost)
+                                    {
+                                        <div class="absolute -bottom-1 -right-1 bg-primary text-white text-[8px] font-black px-1.5 py-0.5 rounded-full border-2 border-white dark:border-slate-900">HOST</div>
+                                    }
+                                </div>
+                                <div>
+                                    <h5 class="font-black text-slate-900 dark:text-white leading-none">@player.PlayerName</h5>
+                                    <p class="text-xs font-bold text-slate-400 mt-1">Lvl @player.PlayerLevel</p>
+                                </div>
+                            </div>
+                            @if (player.IsHost)
+                            {
+                                <span class="material-symbols-outlined text-primary text-xl material-symbols-fill">verified</span>
+                            }
+                            else
+                            {
+                                <form method="post" style="display: inline;">
+                                    <input type="hidden" name="playerId" value="@player.PlayerId"/>
+                                    <button type="submit" asp-page-handler="Remove" class="text-slate-400 hover:text-rose-500 transition-colors">
+                                        <span class="material-symbols-outlined text-xl">remove_circle_outline</span>
+                                    </button>
+                                </form>
+                            }
+                        </div>
+                    }
+
+                    @for (int i = Model.ViewModel.FilledSlots; i < Model.ViewModel.TotalSlots; i++)
+                    {
+                        <div class="flex items-center gap-3 opacity-60">
+                            <div class="size-12 rounded-full border-2 border-dashed border-slate-300 dark:border-slate-700 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-slate-300">person_add</span>
+                            </div>
+                            <div>
+                                <h5 class="font-black text-slate-400 leading-none italic">Waiting for @(i + 1)@(i == 0 ? "st" : i == 1 ? "nd" : i == 2 ? "rd" : "th")...</h5>
+                                <p class="text-xs font-bold text-slate-400 mt-1">Open Slot</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="mt-10 pt-8 border-t border-slate-200 dark:border-slate-800">
+                    <button class="w-full flex items-center justify-center gap-2 text-slate-600 dark:text-slate-300 text-sm font-black hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined text-lg">share</span>
+                        Invite via Link
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
