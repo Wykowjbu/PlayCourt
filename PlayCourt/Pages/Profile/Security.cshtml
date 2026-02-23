@@ -1,0 +1,152 @@
+@page
+@model PlayCourt.Pages.Profile.SecurityModel
+@{
+    Layout = "_PlayerProfileLayout";
+    ViewData["Title"] = "Security Settings";
+    ViewData["CurrentPage"] = "Security";
+}
+
+<div class="max-w-4xl mx-auto px-10 py-12">
+    <div class="mb-10">
+        <h2 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Security Settings</h2>
+        <p class="text-slate-500 dark:text-slate-400 mt-2 text-lg">Manage your password and account recovery options to keep your PlayCourt profile safe.</p>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+    {
+        <div class="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl flex items-start gap-3">
+            <span class="material-symbols-outlined text-green-600 dark:text-green-400">check_circle</span>
+            <p class="text-green-700 dark:text-green-300 font-medium">@Model.SuccessMessage</p>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl flex items-start gap-3">
+            <span class="material-symbols-outlined text-red-600 dark:text-red-400">error</span>
+            <p class="text-red-700 dark:text-red-300 font-medium">@Model.ErrorMessage</p>
+        </div>
+    }
+
+    <section class="mb-8">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+            <div class="p-8 border-b border-slate-100 dark:border-slate-800">
+                <h3 class="text-xl font-bold flex items-center gap-2.5">
+                    <span class="material-symbols-outlined text-primary bg-primary/10 p-1.5 rounded-lg">lock</span>
+                    Change Password
+                </h3>
+            </div>
+            <div class="p-8">
+                <form method="post" asp-page-handler="ChangePassword" class="grid grid-cols-1 gap-6 max-w-2xl">
+                    <label class="flex flex-col gap-2.5 relative">
+                        <span class="text-sm font-bold text-slate-700 dark:text-slate-300">Current Password</span>
+                        <div class="relative">
+                            <input asp-for="Input.CurrentPassword" class="w-full form-input rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 pr-12 transition-all" placeholder="Enter current password" type="password" id="currentPassword"/>
+                            <button type="button" onclick="togglePassword('currentPassword')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                                <span class="material-symbols-outlined text-xl">visibility</span>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Input.CurrentPassword" class="text-xs text-red-500 font-medium"></span>
+                    </label>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <label class="flex flex-col gap-2.5">
+                            <span class="text-sm font-bold text-slate-700 dark:text-slate-300">New Password</span>
+                            <div class="relative">
+                                <input asp-for="Input.NewPassword" class="w-full form-input rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 pr-12 transition-all" placeholder="At least 8 characters" type="password" id="newPassword"/>
+                                <button type="button" onclick="togglePassword('newPassword')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                                    <span class="material-symbols-outlined text-xl">visibility</span>
+                                </button>
+                            </div>
+                            <span asp-validation-for="Input.NewPassword" class="text-xs text-red-500 font-medium"></span>
+                        </label>
+
+                        <label class="flex flex-col gap-2.5">
+                            <span class="text-sm font-bold text-slate-700 dark:text-slate-300">Confirm New Password</span>
+                            <div class="relative">
+                                <input asp-for="Input.ConfirmNewPassword" class="w-full form-input rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 pr-12 transition-all" placeholder="Re-type new password" type="password" id="confirmPassword"/>
+                                <button type="button" onclick="togglePassword('confirmPassword')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                                    <span class="material-symbols-outlined text-xl">visibility</span>
+                                </button>
+                            </div>
+                            <span asp-validation-for="Input.ConfirmNewPassword" class="text-xs text-red-500 font-medium"></span>
+                        </label>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="px-8 py-3.5 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/30 hover:bg-primary-hover transition-all active:scale-[0.98]">
+                            Update Password
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-12">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+            <div class="p-8 border-b border-slate-100 dark:border-slate-800">
+                <h3 class="text-xl font-bold flex items-center gap-2.5">
+                    <span class="material-symbols-outlined text-primary bg-primary/10 p-1.5 rounded-lg">contact_mail</span>
+                    Security Recovery
+                </h3>
+            </div>
+            <div class="p-8">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-slate-800 dark:text-white mb-1">Recovery Email</h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">This email will be used for 'Reset Password' flows and critical security alerts.</p>
+                        <div class="flex items-center gap-3">
+                            <div class="px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-medium text-slate-700 dark:text-slate-300">
+                                @Model.Input.RecoveryEmail
+                            </div>
+                            @if (Model.Input.IsRecoveryEmailVerified)
+                            {
+                                <div class="flex items-center gap-1.5 px-3 py-1 bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400 text-xs font-bold rounded-full">
+                                    <span class="material-symbols-outlined text-sm">verified</span>
+                                    Verified
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="flex items-center gap-1.5 px-3 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-xs font-bold rounded-full">
+                                    <span class="material-symbols-outlined text-sm">warning</span>
+                                    Unverified
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="flex flex-shrink-0">
+                        <button class="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-sm font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            Change Recovery Email
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="flex items-center justify-between pt-10 border-t border-slate-200 dark:border-slate-800">
+        <div class="text-sm text-slate-500 dark:text-slate-400">
+            Last password change: <span class="font-bold">@Model.Input.LastPasswordChangeDate</span>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('.material-symbols-outlined');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
+    </script>
+}
